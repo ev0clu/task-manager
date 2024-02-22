@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User, Prisma, Role } from '@prisma/client';
+import { OmitUser } from './interfaces/user.interface';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(role?: Role): Promise<User[]> {
+  async findAll(role?: Role): Promise<OmitUser[]> {
     let users: User[] = [];
 
     if (role) {
@@ -19,7 +20,13 @@ export class UserService {
 
     users = await this.prisma.user.findMany();
 
-    return users;
+    const omitUsers: OmitUser[] = users.map((user) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...rest } = user;
+      return rest;
+    });
+
+    return omitUsers;
   }
 
   async findOne(id: string): Promise<User> {
@@ -29,13 +36,17 @@ export class UserService {
       },
     });
 
+    delete user.password;
+
     return user;
   }
 
-  async create(createUserDto: Prisma.UserCreateInput): Promise<User> {
+  async create(createUserDto: Prisma.UserCreateInput): Promise<OmitUser> {
     const user = await this.prisma.user.create({
       data: createUserDto,
     });
+
+    delete user.password;
 
     return user;
   }
@@ -43,7 +54,7 @@ export class UserService {
   async update(
     id: string,
     updateUserDto: Prisma.UserUpdateInput,
-  ): Promise<User> {
+  ): Promise<OmitUser> {
     const user = await this.prisma.user.update({
       where: {
         id,
@@ -54,7 +65,7 @@ export class UserService {
     return user;
   }
 
-  async delete(id: string): Promise<User> {
+  async delete(id: string): Promise<OmitUser> {
     const user = await this.prisma.user.delete({
       where: {
         id,
