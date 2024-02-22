@@ -34,11 +34,12 @@ Password: `1234`
 
 1. Clone the repository
 2. Run `npm install` command in your terminal inside frontend and backend folder
-3. Set up PostgreSQL database and Google provider config
+3. Set up PostgreSQL database and Google provider config.
 
 4. Navigate to **backend** folder and create .env file and add enviromental variables:
    open ssl key should generate to JWT_SECRET<br>
    `DATABASE_URL=`<br>
+   `DIRECT_URL=`<br>
    `JWT_SECRET=`<br>
    `GOOGLE_CLIENT_ID=`<br>
    `GOOGLE_CLIENT_SECRET=`<br>
