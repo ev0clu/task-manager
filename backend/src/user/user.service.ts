@@ -19,9 +19,23 @@ export class UserService {
           role,
         },
       });
+
+      if (!users) {
+        throw new ConflictException('Conflict', {
+          cause: new Error(),
+          description: `There is still no any users with role: ${role}`,
+        });
+      }
     }
 
     users = await this.prisma.user.findMany();
+
+    if (!users) {
+      throw new ConflictException('Conflict', {
+        cause: new Error(),
+        description: 'There is still no any users',
+      });
+    }
 
     const omitUsers: OmitUser[] = users.map((user) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -38,6 +52,13 @@ export class UserService {
         id,
       },
     });
+
+    if (!user) {
+      throw new ConflictException('Conflict', {
+        cause: new Error(),
+        description: 'User does not exist',
+      });
+    }
 
     delete user.password;
 
