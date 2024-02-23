@@ -10,8 +10,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Prisma } from '@prisma/client';
 import { OmitUser } from './interfaces/user.interface';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -29,7 +30,7 @@ export class UserController {
 
   @Post() // POST /users
   create(
-    @Body(ValidationPipe) createUserDto: Prisma.UserCreateInput,
+    @Body(ValidationPipe) createUserDto: CreateUserDto,
   ): Promise<OmitUser> {
     return this.userService.create(createUserDto);
   }
@@ -37,7 +38,7 @@ export class UserController {
   @Put(':id') // PUT /users/:id
   update(
     @Param('id') id: string,
-    @Body(ValidationPipe) updateUserDto: Prisma.UserUpdateInput,
+    @Body(ValidationPipe) updateUserDto: UpdateUserDto,
   ): Promise<OmitUser> {
     return this.userService.update(id, updateUserDto);
   }

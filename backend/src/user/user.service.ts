@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { User, Prisma, Role } from '@prisma/client';
+import { User, Role } from '@prisma/client';
 import { OmitUser } from './interfaces/user.interface';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -29,7 +32,7 @@ export class UserService {
     return omitUsers;
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: string): Promise<OmitUser> {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
@@ -41,7 +44,20 @@ export class UserService {
     return user;
   }
 
-  async create(createUserDto: Prisma.UserCreateInput): Promise<OmitUser> {
+  async create(createUserDto: CreateUserDto): Promise<OmitUser> {
+    const isUserExist = await this.prisma.user.findUnique({
+      where: {
+        email: createUserDto.email,
+      },
+    });
+
+    if (isUserExist) {
+      throw new ConflictException('Conflict', {
+        cause: new Error(),
+        description: 'User already exist',
+      });
+    }
+
     const user = await this.prisma.user.create({
       data: createUserDto,
     });
@@ -51,10 +67,7 @@ export class UserService {
     return user;
   }
 
-  async update(
-    id: string,
-    updateUserDto: Prisma.UserUpdateInput,
-  ): Promise<OmitUser> {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<OmitUser> {
     const user = await this.prisma.user.update({
       where: {
         id,
