@@ -45,21 +45,29 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<OmitUser> {
-    const isUserExist = await this.prisma.user.findUnique({
+    const existUserByEmail = await this.prisma.user.findUnique({
       where: {
         email: createUserDto.email,
       },
     });
 
-    if (isUserExist) {
+    if (existUserByEmail) {
       throw new ConflictException('Conflict', {
         cause: new Error(),
         description: 'User already exist',
       });
     }
 
+    const saltOrRounds = 10;
+    const password = createUserDto.password;
+    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
+
     const user = await this.prisma.user.create({
-      data: createUserDto,
+      data: {
+        username: createUserDto.username,
+        email: createUserDto.email,
+        password: hashedPassword,
+      },
     });
 
     delete user.password;
@@ -68,23 +76,33 @@ export class UserService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<OmitUser> {
+    const saltOrRounds = 10;
+    const password = updateUserDto.password;
+    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
+
     const user = await this.prisma.user.update({
       where: {
         id,
       },
-      data: updateUserDto,
+      data: {
+        username: updateUserDto.username,
+        email: updateUserDto.email,
+        password: hashedPassword,
+      },
     });
+
+    delete user.password;
 
     return user;
   }
 
-  async delete(id: string): Promise<OmitUser> {
+  async delete(id: string): Promise<string> {
     const user = await this.prisma.user.delete({
       where: {
         id,
       },
     });
 
-    return user;
+    return `User #id: ${user.id} has been deleted successfully`;
   }
 }

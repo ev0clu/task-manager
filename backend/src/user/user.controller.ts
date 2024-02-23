@@ -44,7 +44,7 @@ export class UserController {
   }
 
   @Delete(':id') // DELETE /users/:id
-  delete(@Param('id') id: string): Promise<OmitUser> {
+  delete(@Param('id') id: string): Promise<string> {
     return this.userService.delete(id);
   }
 }
