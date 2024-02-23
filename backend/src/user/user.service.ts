@@ -10,7 +10,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(role?: Role): Promise<OmitUser[] | []> {
+  async findAll(role?: Role): Promise<OmitUser[]> | never {
     let users: User[] = [];
 
     if (role) {
@@ -46,7 +46,7 @@ export class UserService {
     return omitUsers;
   }
 
-  async findOne(id: string): Promise<OmitUser | undefined> {
+  async findOne(id: string): Promise<OmitUser> | never {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
@@ -65,7 +65,7 @@ export class UserService {
     return user;
   }
 
-  async create(createUserDto: CreateUserDto): Promise<OmitUser> {
+  async create(createUserDto: CreateUserDto): Promise<OmitUser> | never {
     const existUserByEmail = await this.prisma.user.findUnique({
       where: {
         email: createUserDto.email,

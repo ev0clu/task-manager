@@ -19,19 +19,19 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get() // GET /users or /users?role=value
-  findAll(@Query('role') role?: 'USER' | 'ADMIN'): Promise<OmitUser[]> {
+  findAll(@Query('role') role?: 'USER' | 'ADMIN'): Promise<OmitUser[]> | never {
     return this.userService.findAll(role);
   }
 
   @Get(':id') // GET /users/:id
-  findOne(@Param('id') id: string): Promise<OmitUser> {
+  findOne(@Param('id') id: string): Promise<OmitUser> | never {
     return this.userService.findOne(id);
   }
 
   @Post() // POST /users
   create(
     @Body(ValidationPipe) createUserDto: CreateUserDto,
-  ): Promise<OmitUser> {
+  ): Promise<OmitUser> | never {
     return this.userService.create(createUserDto);
   }
 
