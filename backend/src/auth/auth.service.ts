@@ -3,9 +3,9 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthLoginDto } from './dto/auth-login.dto';
-import { AuthRegisterDto } from './dto/auth-register.dto';
 import { UserService } from 'src/user/user.service';
 import { OmitUser } from './interfaces/auth.interface';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +17,7 @@ export class AuthService {
 
   async login(
     authLoginDto: AuthLoginDto,
-  ): Promise<{ access_token: string }> | never {
+  ): Promise<{ access_token: string; refresh_token: string }> | never {
     const user = await this.prisma.user.findUnique({
       where: {
         email: authLoginDto.email,
@@ -40,8 +40,8 @@ export class AuthService {
     return this.signToken(user.id, user.email);
   }
 
-  async register(authRegisterDto: AuthRegisterDto): Promise<OmitUser> | never {
-    const user = await this.userService.create(authRegisterDto);
+  async register(createUserDto: CreateUserDto): Promise<OmitUser> | never {
+    const user = await this.userService.create(createUserDto);
 
     return user;
   }
@@ -49,13 +49,17 @@ export class AuthService {
   async signToken(
     userId: string,
     email: string,
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ access_token: string; refresh_token: string }> {
     const payload = { sub: userId, email: email };
 
     const token = await this.jwtService.signAsync(payload);
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '1d',
+    });
 
     return {
       access_token: token,
+      refresh_token: refreshToken,
     };
   }
 }
