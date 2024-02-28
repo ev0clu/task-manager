@@ -126,7 +126,7 @@ export class AuthService {
       },
     });
 
-    if (!user || !user.refreshToken || user.refreshToken == null) {
+    if (!user || !user.refreshToken) {
       throw new ForbiddenException('Access denied');
     }
 

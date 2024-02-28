@@ -12,12 +12,14 @@ import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { OmitUser } from './interfaces/auth.interface';
 import { Request } from 'express';
-import { AuthGuard } from '@nestjs/passport';
+import { Public } from './decorator/public.decorator';
+import { RefreshJwtAuthGuard } from './guard/refresh-jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Public()
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   register(
@@ -26,6 +28,7 @@ export class AuthController {
     return this.authService.register(authRegisterDto);
   }
 
+  @Public()
   @Post('login')
   login(
     @Body() authLoginDto: AuthLoginDto,
@@ -33,7 +36,6 @@ export class AuthController {
     return this.authService.login(authLoginDto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   logout(@Req() req: Request) {
@@ -41,7 +43,8 @@ export class AuthController {
     return this.authService.logout(user['sub']);
   }
 
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @Public()
+  @UseGuards(RefreshJwtAuthGuard)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   refreshToken(
