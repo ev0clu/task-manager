@@ -15,15 +15,16 @@ datasource db {
 }
 
 model User {
-  id        String      @id @default(uuid())
-  username  String
-  email     String      @unique
-  password  String?
-  role      Role        @default(USER)
-  provider  Provider    @default(CREDENTIALS)
-  workspace Workspace[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id           String      @id @default(uuid())
+  username     String
+  email        String      @unique
+  password     String?
+  role         Role        @default(USER)
+  provider     Provider    @default(CREDENTIALS)
+  workspace    Workspace[]
+  refreshToken String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Workspace {
