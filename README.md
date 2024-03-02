@@ -1,6 +1,6 @@
 # **Task Manager App**
 
-A task manager app has built with React.js for frontend and Nest.js for backend. The app allows users to log in with previously registered credentials or with Google provider in order to create tasks. After log in, users can add, update or remove tasks. The task are stored in Supabase PostgreSQL database. User can get ADMIN role which give more rights to them. User profile also can be updated. Filter option is available for task filtering.
+A task manager app has built with React.js for frontend and Nest.js for backend. The app allows users to log in with previously registered credentials in order to create tasks. After log in, users can add, update or remove tasks. The task are stored in Supabase PostgreSQL database. User can get ADMIN role which give more rights to them. User profile also can be updated. Filter option is available for task filtering.
 
 ### Demo: [Link]()
 
@@ -12,7 +12,7 @@ Password: `1234`
 ## Features
 
 - Allow user to register, log in and log out
-- Login can be done with previosly registered account or with google account
+- Login can be done with previosly registered account
 - Only logged in users have rights to create, update, remove or check the tasks
 - Basic user can update the the own profile and tasks
 - Admin rights let to create, update or remove any tasks
@@ -38,11 +38,15 @@ Password: `1234`
 
 4. Navigate to **backend** folder and create .env file and add enviromental variables:
    open ssl key should generate to JWT_SECRET<br>
-   `DATABASE_URL=`<br>
-   `DIRECT_URL=`<br>
-   `JWT_SECRET=`<br>
-   `GOOGLE_CLIENT_ID=`<br>
-   `GOOGLE_CLIENT_SECRET=`<br>
+
+```
+PORT=4000
+DATABASE_URL=
+DIRECT_URL=
+JWT_SECRET=
+REFRESH_JWT_SECRET=
+```
+
 5. Run `npx prisma generate`
 6. Setup Google auth: [link](https://console.developers.google.com/apis/credentials)
 7. Run `npm run start:dev` command in your terminal
@@ -56,14 +60,17 @@ Password: `1234`
 
 - Open SSL key generation:
   - You can use the following link to create open ssl key: `https://www.cryptool.org/en/cto/openssl` or you can install open ssl and generate key from terminal. To generate code you should run: `openssl rand -base64 32`
-- Google Provider config page:
-  - [Google](https://console.developers.google.com/apis/credentials)
 - React Hook Form usage with UI component needs to has `ref={null}` property to avoid ref warning:
   - [Stackoverflow](https://stackoverflow.com/questions/67877887/react-hook-form-v7-function-components-cannot-be-given-refs-attempts-to-access)
   - [GitHub](https://github.com/react-hook-form/react-hook-form/issues/3411)
 - Loading screen approaches (Fetch-than-render, Render-as-you-fetch, Suspense, ):
   - [Medium.com](https://medium.com/jspoint/introduction-to-react-v18-suspense-and-render-as-you-fetch-approach-1b259551a4c0)
   - [Linkedin.com](https://www.linkedin.com/pulse/fetch-then-render-render-as-you-fetch-fetch-on-render-amit-pal/)
+- Validation decorators:
+  - [GitHub](https://github.com/typestack/class-validator#validation-decorators)
+- Prisma
+  - `npx prisma migrate dev --create-only` creates new migration and delete the remote database
+  - `npx prisma migrate dev` pushs the schema from local to remote database
 
 ### Dependencies
 
@@ -84,3 +91,7 @@ Password: `1234`
 
 ![layout-1 picture](https://github.com/ev0clu/task-manager/blob/main/layout-1.png?raw=true)<br>
 ![layout-2 picture](https://github.com/ev0clu/task-manager/blob/main/layout-2.png?raw=true)<br>
+
+```
+
+```
