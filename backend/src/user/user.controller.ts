@@ -1,11 +1,24 @@
-import { Body, Controller, Param, Put, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Put,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { OmitUser } from './interfaces/user.interface';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { TUser } from './types/user.type';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get(':id') // GET /user/:id
+  profile(@Param('id') id: string): Promise<TUser> | never {
+    return this.userService.profile(id);
+  }
 
   @Put(':id') // PUT /user/:id
   update(
