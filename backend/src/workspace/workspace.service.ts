@@ -1,17 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
-import { WorkspaceDto } from './dto/workspace.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
+import { TWorkspace } from './types/workspace.type';
 
 @Injectable()
 export class WorkspaceService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(userId: string): Promise<WorkspaceDto[]> | never {
+  async findAll(userId: string): Promise<TWorkspace[]> | never {
     const workspace = await this.prisma.workspace.findMany({
       where: {
         userId,
+      },
+      include: {
+        boards: true,
+        activity: true,
       },
     });
 
@@ -22,7 +26,7 @@ export class WorkspaceService {
     return workspace;
   }
 
-  async findOne(id: string): Promise<WorkspaceDto> | never {
+  async findOne(id: string): Promise<TWorkspace> | never {
     const workspace = await this.prisma.workspace.findUnique({
       where: {
         id,
@@ -39,7 +43,7 @@ export class WorkspaceService {
   async create(
     createWorkspaceDto: CreateWorkspaceDto,
     userId: string,
-  ): Promise<WorkspaceDto> {
+  ): Promise<TWorkspace> {
     const workspace = await this.prisma.workspace.create({
       data: {
         title: createWorkspaceDto.title,
@@ -53,7 +57,7 @@ export class WorkspaceService {
   async update(
     id: string,
     updateWorkspaceDto: UpdateWorkspaceDto,
-  ): Promise<WorkspaceDto> {
+  ): Promise<TWorkspace> {
     const workspace = await this.prisma.workspace.update({
       where: {
         id,
@@ -67,7 +71,7 @@ export class WorkspaceService {
   }
 
   async delete(id: string): Promise<{ message: string; statusCode: string }> {
-    const workspace: WorkspaceDto = await this.prisma.workspace.delete({
+    const workspace: TWorkspace = await this.prisma.workspace.delete({
       where: { id },
     });
 
