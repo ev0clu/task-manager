@@ -14,7 +14,7 @@ import {
 import { WorkspaceService } from './workspace.service';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
-import { Workspace } from '@prisma/client';
+
 import { Request } from 'express';
 import { TWorkspace } from './types/workspace.type';
 
@@ -22,9 +22,9 @@ import { TWorkspace } from './types/workspace.type';
 export class WorkspaceController {
   constructor(private readonly workspaceService: WorkspaceService) {}
 
-  @Get() // GET /workspace/:id
+  @Get() // GET /workspace
   @HttpCode(HttpStatus.OK)
-  findAll(@Req() req: Request): Promise<Workspace[]> | never {
+  findAll(@Req() req: Request): Promise<TWorkspace[]> | never {
     const user = req.user;
     return this.workspaceService.findAll(user['sub']);
   }
