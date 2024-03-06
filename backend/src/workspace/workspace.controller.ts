@@ -42,7 +42,7 @@ export class WorkspaceController {
     @Body(ValidationPipe) createWorkspaceDto: CreateWorkspaceDto,
   ): Promise<TWorkspace> {
     const user = req.user;
-    return this.workspaceService.create(createWorkspaceDto, user['sub']);
+    return this.workspaceService.create(user['sub'], createWorkspaceDto);
   }
 
   @Put(':id') // PUT /workspace/:id

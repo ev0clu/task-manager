@@ -41,8 +41,8 @@ export class WorkspaceService {
   }
 
   async create(
-    createWorkspaceDto: CreateWorkspaceDto,
     userId: string,
+    createWorkspaceDto: CreateWorkspaceDto,
   ): Promise<TWorkspace> {
     const workspace = await this.prisma.workspace.create({
       data: {
