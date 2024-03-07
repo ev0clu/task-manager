@@ -71,13 +71,20 @@ export class WorkspaceService {
   }
 
   async delete(id: string): Promise<{ message: string; statusCode: string }> {
-    const workspace: TWorkspace = await this.prisma.workspace.delete({
-      where: { id },
-    });
+    try {
+      const workspace: TWorkspace = await this.prisma.workspace.delete({
+        where: { id },
+      });
 
-    return {
-      message: `${workspace.title} has been deleted`,
-      statusCode: '200',
-    };
+      return {
+        message: `${workspace.title} has been deleted`,
+        statusCode: '200',
+      };
+    } catch (error) {
+      return {
+        message: error,
+        statusCode: '404',
+      };
+    }
   }
 }
