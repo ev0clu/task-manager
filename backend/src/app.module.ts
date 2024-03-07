@@ -8,6 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { BoardModule } from './board/board.module';
 import { ActivityModule } from './activity/activity.module';
+import { ListModule } from './list/list.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ActivityModule } from './activity/activity.module';
     WorkspaceModule,
     BoardModule,
     ActivityModule,
+    ListModule,
   ],
   providers: [
     {
