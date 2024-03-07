@@ -30,6 +30,7 @@ export class BoardService {
       where: {
         id,
       },
+      include: { lists: true },
     });
 
     if (!board) {
@@ -82,15 +83,6 @@ export class BoardService {
     try {
       const board: TBoard = await this.prisma.board.delete({
         where: { id },
-      });
-
-      await this.prisma.workspace.update({
-        where: { id: board.workspaceId },
-        data: {
-          boards: {
-            disconnect: [{ id }],
-          },
-        },
       });
 
       return {
