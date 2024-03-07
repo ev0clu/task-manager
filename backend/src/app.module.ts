@@ -7,6 +7,7 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { BoardModule } from './board/board.module';
+import { ActivityModule } from './activity/activity.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { BoardModule } from './board/board.module';
     PrismaModule,
     WorkspaceModule,
     BoardModule,
+    ActivityModule,
   ],
   providers: [
     {
