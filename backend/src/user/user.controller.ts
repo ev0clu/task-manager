@@ -4,31 +4,34 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param,
   Put,
+  Req,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { OmitUser } from './interfaces/user.interface';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { TUser } from './types/user.type';
+import { Request } from 'express';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get(':id') // GET /user/:id
+  @Get() // GET /user
   @HttpCode(HttpStatus.OK)
-  profile(@Param('id') id: string): Promise<TUser> | never {
-    return this.userService.profile(id);
+  profile(@Req() req: Request): Promise<TUser> | never {
+    const user = req.user;
+    return this.userService.profile(user['sub']);
   }
 
-  @Put(':id') // PUT /user/:id
+  @Put() // PUT /user
   @HttpCode(HttpStatus.OK)
   update(
-    @Param('id') id: string,
+    @Req() req: Request,
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
   ): Promise<OmitUser> {
-    return this.userService.update(id, updateUserDto);
+    const user = req.user;
+    return this.userService.update(user['sub'], updateUserDto);
   }
 }
