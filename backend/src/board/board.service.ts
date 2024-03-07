@@ -19,7 +19,7 @@ export class BoardService {
     });
 
     if (!board) {
-      throw new NotFoundException('Workspace has not found');
+      throw new NotFoundException('Board has not found');
     }
 
     return board;
