@@ -31,7 +31,7 @@ model Workspace {
   title     String
   boards    Board[]
   activity  Activity[]
-  user      User       @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -41,7 +41,7 @@ model Board {
   id          String    @id @default(uuid())
   title       String
   color       Color
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
   lists       List[]
   createdAt   DateTime  @default(now())
@@ -51,14 +51,14 @@ model Board {
 model Activity {
   id          String    @id @default(uuid())
   title       String
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
 }
 
 model List {
   id        String   @id @default(uuid())
   title     String
-  board     Board    @relation(fields: [boardId], references: [id])
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
   boardId   String
   cards     Card[]
   createdAt DateTime @default(now())
@@ -70,7 +70,7 @@ model Card {
   title       String
   description String
   priority    Priority
-  list        List     @relation(fields: [listId], references: [id])
+  list        List     @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
