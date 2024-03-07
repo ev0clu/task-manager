@@ -18,24 +18,24 @@ import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { Request } from 'express';
 import { TWorkspace } from './types/workspace.type';
 
-@Controller('workspace')
+@Controller('workspaces')
 export class WorkspaceController {
   constructor(private readonly workspaceService: WorkspaceService) {}
 
-  @Get() // GET /workspace
+  @Get() // GET /workspaces
   @HttpCode(HttpStatus.OK)
   findAll(@Req() req: Request): Promise<TWorkspace[]> | never {
     const user = req.user;
     return this.workspaceService.findAll(user['sub']);
   }
 
-  @Get(':id') // GET /workspace/:id
+  @Get(':id') // GET /workspaces/:id
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string): Promise<TWorkspace> | never {
     return this.workspaceService.findOne(id);
   }
 
-  @Post() // POST /workspace
+  @Post() // POST /workspaces
   @HttpCode(HttpStatus.CREATED)
   create(
     @Req() req: Request,
@@ -45,7 +45,7 @@ export class WorkspaceController {
     return this.workspaceService.create(user['sub'], createWorkspaceDto);
   }
 
-  @Put(':id') // PUT /workspace/:id
+  @Put(':id') // PUT /workspaces/:id
   @HttpCode(HttpStatus.OK)
   update(
     @Param('id') id: string,
@@ -54,7 +54,7 @@ export class WorkspaceController {
     return this.workspaceService.update(id, updateWorkspaceDto);
   }
 
-  @Delete(':id') // DELETE /workspace/:id
+  @Delete(':id') // DELETE /workspaces/:id
   @HttpCode(HttpStatus.OK)
   delete(
     @Param('id') id: string,
