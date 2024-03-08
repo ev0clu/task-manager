@@ -9,6 +9,7 @@ import { WorkspaceModule } from './workspace/workspace.module';
 import { BoardModule } from './board/board.module';
 import { ActivityModule } from './activity/activity.module';
 import { ListModule } from './list/list.module';
+import { CardModule } from './card/card.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ListModule } from './list/list.module';
     BoardModule,
     ActivityModule,
     ListModule,
+    CardModule,
   ],
   providers: [
     {
