@@ -76,16 +76,16 @@ REFRESH_JWT_SECRET=
 
 - [React](https://react.dev/)
 - [React DOM](https://www.npmjs.com/package/react-dom)
+- [React Router DOM](https://www.npmjs.com/package/react-router-dom)
 - [Material UI](https://mui.com/)
-- [Typescript](https://www.typescriptlang.org/)
-- [Nest.js](https://nestjs.com/)
-- [Prisma](https://www.prisma.io/)
-- [bcrypt](https://www.npmjs.com/package/bcrypt)
 - [React Hook Form](https://react-hook-form.com/)
 - [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers)
 - [Zod](https://zod.dev/)
 - [date-fns](https://date-fns.org/)
-- [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- [Typescript](https://www.typescriptlang.org/)
+- [Nest.js](https://nestjs.com/)
+- [Prisma](https://www.prisma.io/)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
 
 ### Layout
 
