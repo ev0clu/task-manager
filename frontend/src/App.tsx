@@ -1,14 +1,21 @@
-import { useContext } from 'react';
-import { ThemeContext } from './context/ThemeContext';
+//import { useContext } from 'react';
+//import { ThemeContext } from './context/ThemeContext';
+import { Outlet } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Box from '@mui/material/Box';
 
 function App() {
-  const { toggleTheme } = useContext(ThemeContext);
+  // const { toggleTheme } = useContext(ThemeContext);
 
   return (
-    <div>
-      <button onClick={toggleTheme}>Test</button>
-      <div>ASD</div>
-    </div>
+    <Box display={'flex'} flexDirection={'column'}>
+      <Header />
+      <Box sx={{ flex: 1 }}>
+        <Outlet />
+      </Box>
+      <Footer />
+    </Box>
   );
 }
 
