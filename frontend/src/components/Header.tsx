@@ -21,6 +21,7 @@ const Header = () => {
       direction={'row'}
       spacing={1}
       justifyContent={'space-between'}
+      alignItems={'center'}
       sx={{ padding: '0.5rem' }}
     >
       <Stack direction={'row'} spacing={1}>
