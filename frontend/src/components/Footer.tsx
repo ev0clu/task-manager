@@ -10,6 +10,7 @@ const Footer = () => {
       justifyContent={'center'}
       alignItems={'center'}
       gap={1}
+      py={'0.5rem'}
     >
       <Typography
         variant="body2"
