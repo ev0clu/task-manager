@@ -18,12 +18,17 @@ import HomePage from './pages/HomePage.tsx';
 import Login from './pages/LoginPage.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import { ThemeContextProvider } from './context/ThemeContext.tsx';
+import ErrorBoundary from './components/ErrorBoundary.tsx';
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route
+      path="/"
+      element={<App />}
+      errorElement={<ErrorBoundary />}
+    >
       <Route index={true} path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
