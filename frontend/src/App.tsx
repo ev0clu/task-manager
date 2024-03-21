@@ -9,9 +9,9 @@ function App() {
   // const { toggleTheme } = useContext(ThemeContext);
 
   return (
-    <Box display={'flex'} flexDirection={'column'}>
+    <Box display={'flex'} flexDirection={'column'} height={'100vh'}>
       <Header />
-      <Box sx={{ flex: 1 }}>
+      <Box flex={1}>
         <Outlet />
       </Box>
       <Footer />
