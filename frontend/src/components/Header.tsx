@@ -34,7 +34,16 @@ const Header = () => {
           src={logoSrc}
           alt="logo-img"
         />
-        <Typography variant="h5" sx={{ fontWeight: 600 }}>
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 600,
+            display: {
+              xs: 'none',
+              sm: 'block'
+            }
+          }}
+        >
           Task Manager
         </Typography>
       </Stack>
@@ -44,7 +53,7 @@ const Header = () => {
         divider={<Divider orientation="vertical" flexItem />}
       >
         <IconButton
-          aria-label="logout"
+          aria-label="profile"
           size="medium"
           color="primary"
           onClick={toggleTheme}
@@ -52,7 +61,7 @@ const Header = () => {
           <SettingsIcon />
         </IconButton>
         <IconButton
-          aria-label="logout"
+          aria-label="login"
           size="medium"
           color="primary"
           onClick={toggleTheme}
