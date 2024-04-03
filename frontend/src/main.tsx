@@ -15,8 +15,10 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import HomePage from './pages/HomePage.tsx';
-import Login from './pages/LoginPage.tsx';
-import Dashboard from './pages/Dashboard.tsx';
+import LoginPage from './pages/LoginPage.tsx';
+import RegisterPage from './pages/RegisterPage.tsx';
+import DashboardPage from './pages/Dashboard.tsx';
+
 import { ThemeContextProvider } from './context/ThemeContext.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
 
@@ -30,8 +32,9 @@ const router = createBrowserRouter(
       errorElement={<ErrorBoundary />}
     >
       <Route index={true} path="/" element={<HomePage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
     </Route>
   )
 );
