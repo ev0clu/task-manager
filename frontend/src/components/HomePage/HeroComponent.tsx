@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ThemeContext } from '../../context/ThemeContext';
+import { ThemeContext } from '../../context/ThemeContextProvider';
 import { Box, Button, Typography } from '@mui/material';
 import waveImgSrc from '../../assets/white-wave-bg.svg';
 import noteImageSrc from '../../assets/note_image.png';
