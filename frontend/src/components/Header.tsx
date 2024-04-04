@@ -1,11 +1,12 @@
 import { useContext } from 'react';
-import { ThemeContext } from '../context/ThemeContext';
+import { ThemeContext } from '../context/ThemeContextProvider';
 import logoSrc from '../assets/logo.png';
 import {
   Box,
   Divider,
   IconButton,
   Stack,
+  Tooltip,
   Typography
 } from '@mui/material';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -52,38 +53,46 @@ const Header = () => {
         spacing={1}
         divider={<Divider orientation="vertical" flexItem />}
       >
-        <IconButton
-          aria-label="profile"
-          size="medium"
-          color="primary"
-          onClick={toggleTheme}
-        >
-          <SettingsIcon />
-        </IconButton>
-        <IconButton
-          aria-label="login"
-          size="medium"
-          color="primary"
-          onClick={toggleTheme}
-        >
-          <LoginIcon />
-        </IconButton>
-        <IconButton
-          aria-label="logout"
-          size="medium"
-          color="primary"
-          onClick={toggleTheme}
-        >
-          <LogoutIcon />
-        </IconButton>
-        <IconButton
-          aria-label="toggle theme"
-          size="medium"
-          color="primary"
-          onClick={toggleTheme}
-        >
-          {theme === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
-        </IconButton>
+        <Tooltip title="Settings">
+          <IconButton
+            href="/profile"
+            aria-label="profile"
+            size="medium"
+            color="primary"
+          >
+            <SettingsIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Login">
+          <IconButton
+            href="/login"
+            aria-label="login"
+            size="medium"
+            color="primary"
+          >
+            <LoginIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Logout">
+          <IconButton
+            href="/"
+            aria-label="logout"
+            size="medium"
+            color="primary"
+          >
+            <LogoutIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Theme">
+          <IconButton
+            aria-label="toggle theme"
+            size="medium"
+            color="primary"
+            onClick={toggleTheme}
+          >
+            {theme === 'light' ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
+        </Tooltip>
       </Stack>
     </Stack>
   );
