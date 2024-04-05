@@ -17,6 +17,17 @@ const Routes = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
+        {/* Routes accessible only to non-authenticated users  */}
+        <Route
+          path="/"
+          element={<PublicRoutes />}
+          errorElement={<ErrorBoundary />}
+        >
+          <Route index={true} path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
+
         {/* Routes accessible only to authenticated users  */}
         <Route
           path="/"
@@ -29,17 +40,6 @@ const Routes = () => {
             element={<DashboardPage />}
           />
           <Route path="/profile" element={<ProfilePage />} />
-        </Route>
-
-        {/* Routes accessible only to non-authenticated users  */}
-        <Route
-          path="/"
-          element={<PublicRoutes />}
-          errorElement={<ErrorBoundary />}
-        >
-          <Route index={true} path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
         </Route>
       </>
     )
