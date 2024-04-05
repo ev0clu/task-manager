@@ -18,6 +18,7 @@ import {
   Typography
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useAuth } from '../context/AuthContextProvider';
 
 const formSchema = z.object({
   email: z
@@ -35,6 +36,7 @@ type formType = z.infer<typeof formSchema>;
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { setToken } = useAuth();
 
   const [error, setError] = useState(false);
   const [errorText, setErrorText] = useState('');
@@ -59,7 +61,7 @@ const LoginPage = () => {
       setErrorText('');
       setSubmitting(true);
       const response = await fetch(
-        `${import.meta.env.VITE_API_REGISTER}`,
+        `${import.meta.env.VITE_API_LOGIN}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -69,11 +71,13 @@ const LoginPage = () => {
           })
         }
       );
+      const body = await response.json();
       if (response.ok) {
+        setToken(body.access_token);
         navigate('/dashboard');
       } else {
         setSubmitting(false);
-        const body = await response.json();
+
         if (body.error) {
           setError(true);
           setErrorText(body.error);
