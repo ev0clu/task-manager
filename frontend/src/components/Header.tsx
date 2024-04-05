@@ -3,6 +3,7 @@ import { ThemeContext } from '../context/ThemeContextProvider';
 import logoSrc from '../assets/logo.png';
 import {
   Box,
+  Link,
   Divider,
   IconButton,
   Stack,
@@ -14,9 +15,40 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { useAuth } from '../context/AuthContextProvider';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Header = () => {
+  const navigate = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { token, clearToken } = useAuth();
+
+  const logout = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_LOGOUT}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token
+          }
+        }
+      );
+
+      if (response.ok) {
+        clearToken();
+        navigate('/');
+      } else {
+        const body = await response.json();
+        toast.error(body.message);
+      }
+    } catch (error) {
+      toast.error('An unexpected error is occured');
+    }
+  };
+
   return (
     <Stack
       direction={'row'}
@@ -25,64 +57,77 @@ const Header = () => {
       alignItems={'center'}
       sx={{ padding: '0.5rem' }}
     >
-      <Stack direction={'row'} spacing={1}>
-        <Box
-          component="img"
-          sx={{
-            height: '2rem',
-            width: 'auto'
-          }}
-          src={logoSrc}
-          alt="logo-img"
-        />
-        <Typography
-          variant="h5"
-          sx={{
-            fontWeight: 600,
-            display: {
-              xs: 'none',
-              sm: 'block'
-            }
-          }}
-        >
-          Task Manager
-        </Typography>
-      </Stack>
+      <Link
+        color="inherit"
+        underline="none"
+        href={token ? '/dashboard' : '/'}
+      >
+        <Stack direction={'row'} spacing={1} alignItems={'center'}>
+          <Box
+            component="img"
+            sx={{
+              height: '2rem',
+              width: 'auto'
+            }}
+            src={logoSrc}
+            alt="logo-img"
+          />
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 600,
+              display: {
+                xs: 'none',
+                sm: 'block'
+              }
+            }}
+          >
+            Task Manager
+          </Typography>
+        </Stack>
+      </Link>
+
       <Stack
         direction={'row'}
         spacing={1}
         divider={<Divider orientation="vertical" flexItem />}
       >
-        <Tooltip title="Settings">
-          <IconButton
-            href="/profile"
-            aria-label="profile"
-            size="medium"
-            color="primary"
-          >
-            <SettingsIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Login">
-          <IconButton
-            href="/login"
-            aria-label="login"
-            size="medium"
-            color="primary"
-          >
-            <LoginIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Logout">
-          <IconButton
-            href="/"
-            aria-label="logout"
-            size="medium"
-            color="primary"
-          >
-            <LogoutIcon />
-          </IconButton>
-        </Tooltip>
+        {token && (
+          <Tooltip title="Settings">
+            <IconButton
+              href="/profile"
+              aria-label="profile"
+              size="medium"
+              color="primary"
+            >
+              <SettingsIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        {!token && (
+          <Tooltip title="Login">
+            <IconButton
+              href="/login"
+              aria-label="login"
+              size="medium"
+              color="primary"
+            >
+              <LoginIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        {token && (
+          <Tooltip title="Logout">
+            <IconButton
+              aria-label="logout"
+              size="medium"
+              color="primary"
+              onClick={logout}
+            >
+              <LogoutIcon />
+            </IconButton>
+          </Tooltip>
+        )}
         <Tooltip title="Theme">
           <IconButton
             aria-label="toggle theme"
