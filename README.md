@@ -71,6 +71,8 @@ REFRESH_JWT_SECRET=
 - Prisma
   - `npx prisma migrate dev --create-only` creates new migration and delete the remote database
   - `npx prisma migrate dev` pushs the schema from local to remote database
+- JSON Web Token options:
+  - [GitHub](https://github.com/auth0/node-jsonwebtoken?tab=readme-ov-file#token-expiration-exp-claim)
 - CORS configuration options:
   - [GitHub](https://github.com/expressjs/cors#configuration-options)
 
