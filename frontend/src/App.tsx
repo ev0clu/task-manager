@@ -1,17 +1,28 @@
-import Header from './components/Header';
-import Footer from './components/Footer';
 import Box from '@mui/material/Box';
 import Routes from './components/Routes/Routes';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <Box display={'flex'} flexDirection={'column'} height={'100vh'}>
-      <Header />
-      <Box flex={1}>
+    <>
+      <Box display={'flex'} flexDirection={'column'} height={'100vh'}>
         <Routes />
       </Box>
-      <Footer />
-    </Box>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme="light"
+      />
+    </>
   );
 }
 

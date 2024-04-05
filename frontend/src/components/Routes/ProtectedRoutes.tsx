@@ -1,5 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContextProvider';
+import Box from '@mui/material/Box';
+import Header from '../Header';
+import Footer from '../Footer';
 
 const ProtectedRoutes = () => {
   const { token } = useAuth();
@@ -11,7 +14,15 @@ const ProtectedRoutes = () => {
   }
 
   // If authenticated, render the child routes
-  return <Outlet />;
+  return (
+    <>
+      <Header />
+      <Box flex={1}>
+        <Outlet />
+      </Box>
+      <Footer />
+    </>
+  );
 };
 
 export default ProtectedRoutes;
