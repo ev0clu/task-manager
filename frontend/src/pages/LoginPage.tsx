@@ -71,13 +71,14 @@ const LoginPage = () => {
           })
         }
       );
-      const body = await response.json();
+
       if (response.ok) {
+        const body = await response.json();
         setToken(body.access_token);
         navigate('/dashboard');
       } else {
         setSubmitting(false);
-
+        const body = await response.json();
         if (body.error) {
           setError(true);
           setErrorText(body.error);
