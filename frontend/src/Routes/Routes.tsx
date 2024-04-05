@@ -1,9 +1,9 @@
-import HomePage from '../../pages/HomePage.tsx';
-import LoginPage from '../../pages/LoginPage.tsx';
-import RegisterPage from '../../pages/RegisterPage.tsx';
-import ErrorBoundary from '../ErrorBoundary.tsx';
-import DashboardPage from '../../pages/Dashboard.tsx';
-import ProfilePage from '../../pages/ProfilePage.tsx';
+import HomePage from '../pages/HomePage.tsx';
+import LoginPage from '../pages/LoginPage.tsx';
+import RegisterPage from '../pages/RegisterPage.tsx';
+import ErrorBoundary from '../components/ErrorBoundary.tsx';
+import DashboardPage from '../pages/Dashboard.tsx';
+import ProfilePage from '../pages/ProfilePage.tsx';
 import {
   Route,
   RouterProvider,

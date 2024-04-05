@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import Routes from './components/Routes/Routes';
+import Routes from './Routes/Routes';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
