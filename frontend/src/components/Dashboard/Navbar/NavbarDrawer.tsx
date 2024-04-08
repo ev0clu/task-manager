@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Divider,
   IconButton,
@@ -16,7 +16,6 @@ import AddIcon from '@mui/icons-material/Add';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronLeftRight from '@mui/icons-material/ChevronRight';
 import WorkIcon from '@mui/icons-material/Work';
-import { toast } from 'react-toastify';
 import { TWorkspace } from '../../../types/workspace.type';
 
 const Drawer = styled(MuiDrawer, {
@@ -47,46 +46,14 @@ const Drawer = styled(MuiDrawer, {
 
 type NavbarDrawerProps = {
   toggleModal: () => void;
-  token: string | null;
+  workspaces: TWorkspace[];
 };
 
-const NavbarDrawer = ({ toggleModal, token }: NavbarDrawerProps) => {
+const NavbarDrawer = ({
+  toggleModal,
+  workspaces
+}: NavbarDrawerProps) => {
   const [openDrawer, setOpenDrawer] = useState(true);
-  const [workspaces, setWorkspaces] = useState<TWorkspace[]>();
-
-  useEffect(() => {
-    const getWorkspaces = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_WORKSPACES}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer ' + token
-            }
-          }
-        );
-
-        const body = await response.json();
-        if (response.ok) {
-          setWorkspaces(body);
-        } else {
-          if (body) {
-            toast.error(body);
-          } else {
-            toast.error('An unexpected error occurred');
-          }
-        }
-      } catch (error) {
-        toast.error('An unexpected error occurred');
-      }
-    };
-
-    if (token) {
-      getWorkspaces();
-    }
-  }, []);
 
   const toggleDrawer = () => {
     setOpenDrawer((prevVal) => !prevVal);
@@ -134,7 +101,9 @@ const NavbarDrawer = ({ toggleModal, token }: NavbarDrawerProps) => {
                   </ListItemIcon>
                 )}
                 <ListItemText
-                  sx={{ textAlign: 'center' }}
+                  sx={{
+                    textAlign: openDrawer ? 'start' : 'center'
+                  }}
                   primary={
                     openDrawer ? workspace.title : workspace.title[0]
                   }
