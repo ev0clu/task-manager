@@ -5,10 +5,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const ProtectedRoutes = () => {
-  const { token } = useAuth();
+  const { accessToken } = useAuth();
 
   // Check if the user is authenticated
-  if (!token) {
+  if (!accessToken) {
     // If not authenticated, redirect to the login page
     return <Navigate to="/login" />;
   }

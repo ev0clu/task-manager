@@ -5,11 +5,11 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const PublicRoutes = () => {
-  const { token } = useAuth();
+  const { accessToken } = useAuth();
 
   // Check if the user is authenticated
-  if (token) {
-    // If not authenticated, redirect to the login page
+  if (accessToken) {
+    // If authenticated, redirect to the dashboard page
     return <Navigate to="/dashboard" />;
   }
   return (

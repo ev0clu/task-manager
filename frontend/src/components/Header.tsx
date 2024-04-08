@@ -22,7 +22,7 @@ import { toast } from 'react-toastify';
 const Header = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { token, clearToken } = useAuth();
+  const { accessToken, clearToken } = useAuth();
 
   const logout = async () => {
     try {
@@ -32,7 +32,7 @@ const Header = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token
+            Authorization: 'Bearer ' + accessToken
           }
         }
       );
@@ -60,7 +60,7 @@ const Header = () => {
       <Link
         color="inherit"
         underline="none"
-        href={token ? '/dashboard' : '/'}
+        href={accessToken ? '/dashboard' : '/'}
       >
         <Stack direction={'row'} spacing={1} alignItems={'center'}>
           <Box
@@ -92,7 +92,7 @@ const Header = () => {
         spacing={1}
         divider={<Divider orientation="vertical" flexItem />}
       >
-        {token && (
+        {accessToken && (
           <Tooltip title="Settings">
             <IconButton
               href="/profile"
@@ -104,7 +104,7 @@ const Header = () => {
             </IconButton>
           </Tooltip>
         )}
-        {!token && (
+        {!accessToken && (
           <Tooltip title="Login">
             <IconButton
               href="/login"
@@ -116,7 +116,7 @@ const Header = () => {
             </IconButton>
           </Tooltip>
         )}
-        {token && (
+        {accessToken && (
           <Tooltip title="Logout">
             <IconButton
               aria-label="logout"

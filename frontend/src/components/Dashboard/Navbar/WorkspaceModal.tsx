@@ -24,13 +24,13 @@ type formType = z.infer<typeof formSchema>;
 type WorkspaceModalProps = {
   openModal: boolean;
   toggleModal: () => void;
-  token: string | null;
+  accessToken: string | null;
 };
 
 const WorkspaceModal = ({
   openModal,
   toggleModal,
-  token
+  accessToken
 }: WorkspaceModalProps) => {
   const [error, setError] = useState(false);
   const [errorText, setErrorText] = useState('');
@@ -59,7 +59,7 @@ const WorkspaceModal = ({
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token
+            Authorization: 'Bearer ' + accessToken
           },
           body: JSON.stringify({
             title: data.workspace

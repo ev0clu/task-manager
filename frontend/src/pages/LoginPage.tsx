@@ -74,7 +74,7 @@ const LoginPage = () => {
 
       if (response.ok) {
         const body = await response.json();
-        setToken(body.access_token);
+        setToken(body.access_token, body.refresh_token);
         navigate('/dashboard');
       } else {
         setSubmitting(false);

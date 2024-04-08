@@ -7,13 +7,15 @@ import {
 } from 'react';
 
 type AuthConextType = {
-  token: string | null;
-  setToken: (newValue: string) => void;
+  accessToken: string | null;
+  refreshToken: string | null;
+  setToken: (access_token: string, refresh_token: string) => void;
   clearToken: () => void;
 };
 
 const AuthContext = createContext<AuthConextType>({
-  token: '',
+  accessToken: '',
+  refreshToken: '',
   setToken: () => {},
   clearToken: () => {}
 });
@@ -24,27 +26,40 @@ const AuthContextProvider = ({
   children: React.ReactNode;
 }) => {
   // State to hold the authentication token
-  const [token, setToken_] = useState(localStorage.getItem('token'));
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem('access_token')
+  );
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem('refresh_token')
+  );
 
   const [mounted, setMounted] = useState(false);
 
   // Function to set the authentication token
-  const setToken = (newToken: string) => {
-    setToken_(newToken);
+  const setToken = (access_token: string, refresh_token: string) => {
+    setAccessToken(access_token);
+    setRefreshToken(refresh_token);
   };
 
   // Function to clear the authentication token
   const clearToken = () => {
-    setToken('');
+    setAccessToken('');
+    setRefreshToken('');
   };
 
   useEffect(() => {
-    if (token) {
-      localStorage.setItem('token', token);
+    if (accessToken) {
+      localStorage.setItem('access_token', accessToken);
     } else {
-      localStorage.removeItem('token');
+      localStorage.removeItem('access_token');
     }
-  }, [token]);
+
+    if (refreshToken) {
+      localStorage.setItem('refresh_token', refreshToken);
+    } else {
+      localStorage.removeItem('refresh_token');
+    }
+  }, [accessToken, refreshToken]);
 
   useEffect(() => {
     setMounted(true);
@@ -53,11 +68,12 @@ const AuthContextProvider = ({
   // Memoized value of the authentication context
   const contextValue = useMemo(
     () => ({
-      token,
+      accessToken,
+      refreshToken,
       setToken,
       clearToken
     }),
-    [token]
+    [accessToken, refreshToken]
   );
 
   // Provide the authentication context to the children components
