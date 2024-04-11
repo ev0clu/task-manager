@@ -14,7 +14,6 @@ const DashboardPage = () => {
     <>
       {!mounted ? (
         <Box
-          flex={1}
           sx={{
             position: 'absolute',
             top: '50%',
