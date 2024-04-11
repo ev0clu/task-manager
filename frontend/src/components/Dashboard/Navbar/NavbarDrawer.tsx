@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Divider,
   IconButton,
@@ -8,7 +8,9 @@ import {
   ListItemText,
   Stack,
   Toolbar,
-  Tooltip
+  Tooltip,
+  useMediaQuery,
+  Theme
 } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import { styled } from '@mui/material/styles';
@@ -46,14 +48,22 @@ const Drawer = styled(MuiDrawer, {
 
 type NavbarDrawerProps = {
   toggleModal: () => void;
-  workspaces: TWorkspace[];
+  workspaces: TWorkspace[] | undefined;
 };
 
 const NavbarDrawer = ({
   toggleModal,
   workspaces
 }: NavbarDrawerProps) => {
-  const [openDrawer, setOpenDrawer] = useState(true);
+  const matches = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.up('sm')
+  );
+  const [openDrawer, setOpenDrawer] = useState(matches);
+
+  useEffect(() => {
+    // Update the state whenever the screen size changes
+    setOpenDrawer(matches);
+  }, [matches]);
 
   const toggleDrawer = () => {
     setOpenDrawer((prevVal) => !prevVal);
@@ -91,7 +101,7 @@ const NavbarDrawer = ({
       </List>
       <Divider />
       <List component="nav">
-        {workspaces &&
+        {workspaces !== undefined &&
           workspaces.map((workspace) => {
             return (
               <ListItemButton key={workspace.id}>
