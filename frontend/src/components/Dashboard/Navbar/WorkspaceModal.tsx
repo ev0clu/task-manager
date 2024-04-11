@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Box,
   Button,
@@ -11,91 +10,38 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { LoadingButton } from '@mui/lab';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-
-const formSchema = z.object({
-  workspace: z.string().min(1, 'Workspace is required').trim()
-});
-
-type formType = z.infer<typeof formSchema>;
+import { Controller } from 'react-hook-form';
+import useMutationWorkspaceAll from '../../../hooks/useMutationWorkspaceAll';
 
 type WorkspaceModalProps = {
   openModal: boolean;
   toggleModal: () => void;
-  accessToken: string | null;
 };
 
 const WorkspaceModal = ({
   openModal,
-  toggleModal,
-  accessToken
+  toggleModal
 }: WorkspaceModalProps) => {
-  const [error, setError] = useState(false);
-  const [errorText, setErrorText] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-
   const {
+    error,
+    isError,
+    isPending,
     control,
-    handleSubmit,
     reset,
-    formState: { errors }
-  } = useForm<formType>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      workspace: ''
-    }
-  });
-
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    try {
-      setError(false);
-      setErrorText('');
-      setSubmitting(true);
-      const response = await fetch(
-        `${import.meta.env.VITE_API_WORKSPACES}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + accessToken
-          },
-          body: JSON.stringify({
-            title: data.workspace
-          })
-        }
-      );
-
-      if (response.ok) {
-        toggleModal();
-      } else {
-        setSubmitting(false);
-        const body = await response.json();
-        if (body.message) {
-          setError(true);
-          setErrorText(body.message);
-        } else {
-          setError(true);
-          setErrorText('An unexpected error occurred');
-        }
-      }
-    } catch (error) {
-      setError(true);
-      setErrorText('An unexpected error is occured');
-      setSubmitting(false);
-    }
-  };
+    formError,
+    handleSubmit,
+    onSubmit
+  } = useMutationWorkspaceAll({ toggleModal });
 
   return (
     <Modal
       keepMounted
       open={openModal}
       onClose={() => {
-        toggleModal();
         reset({
           workspace: ''
         });
+        toggleModal();
       }}
       aria-labelledby="keep-mounted-modal-title"
       aria-describedby="keep-mounted-modal-description"
@@ -149,10 +95,10 @@ const WorkspaceModal = ({
               <FormHelperText
                 id="workspace-error-text"
                 error={
-                  errors.workspace?.message !== '' ? true : false
+                  formError.workspace?.message !== '' ? true : false
                 }
               >
-                {errors.workspace?.message}
+                {formError.workspace?.message}
               </FormHelperText>
             </FormControl>
 
@@ -176,7 +122,7 @@ const WorkspaceModal = ({
                 type="submit"
                 size="small"
                 endIcon={<SendIcon />}
-                loading={submitting}
+                loading={isPending}
                 loadingPosition="end"
                 variant="contained"
                 sx={{ width: '6rem' }}
@@ -185,8 +131,8 @@ const WorkspaceModal = ({
               </LoadingButton>
             </Stack>
             {error && (
-              <FormHelperText error={error}>
-                {errorText}
+              <FormHelperText error={isError}>
+                {error.message}
               </FormHelperText>
             )}
           </Stack>
