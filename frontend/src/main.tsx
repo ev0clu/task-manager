@@ -7,7 +7,6 @@ import {
   QueryClientProvider
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
 import { ThemeContextProvider } from './context/ThemeContextProvider.tsx';
 import { AuthContextProvider } from './context/AuthContextProvider.tsx';
 import App from './App.tsx';
