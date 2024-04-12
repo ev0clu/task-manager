@@ -18,7 +18,11 @@ const DashboardPage = () => {
     const filteredWorkspace = workspaces?.find(
       (workspace) => workspace.id === id
     );
-    setSelectedWorkspace(filteredWorkspace);
+    setSelectedWorkspace((prevVal) =>
+      prevVal !== undefined && prevVal.id === filteredWorkspace?.id
+        ? undefined
+        : filteredWorkspace
+    );
   };
 
   return (
@@ -46,11 +50,9 @@ const DashboardPage = () => {
             workspaces={workspaces}
             isPending={isPending}
             handleWorkspaceClick={handleWorkspaceClick}
-          />
-          <Viewer
-            workspaces={workspaces}
             selectedWorkspace={selectedWorkspace}
           />
+          <Viewer selectedWorkspace={selectedWorkspace} />
         </Box>
       )}
     </>

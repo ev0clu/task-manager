@@ -9,12 +9,14 @@ type NavbarProps = {
   workspaces: TWorkspace[] | undefined;
   isPending: boolean;
   handleWorkspaceClick: (id: string) => void;
+  selectedWorkspace: TWorkspace | undefined;
 };
 
 const Navbar = ({
   workspaces,
   isPending,
-  handleWorkspaceClick
+  handleWorkspaceClick,
+  selectedWorkspace
 }: NavbarProps) => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -41,6 +43,7 @@ const Navbar = ({
             toggleModal={toggleModal}
             workspaces={workspaces}
             handleWorkspaceClick={handleWorkspaceClick}
+            selectedWorkspace={selectedWorkspace}
           />
           <WorkspaceModal
             openModal={openModal}
