@@ -1,18 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Navbar from '../components/Dashboard/Navbar';
 import { Box, CircularProgress } from '@mui/material';
 import Viewer from '../components/Dashboard/Viewer';
+import useQueryAll from '../hooks/useQueryAll';
+import { TWorkspace } from '../types/workspace.type';
 
 const DashboardPage = () => {
-  const [mounted, setMounted] = useState(false);
+  const [selectedWorkspace, setSelectedWorkspace] =
+    useState<TWorkspace>();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { data: workspaces, isPending } = useQueryAll<TWorkspace[]>(
+    'workspaces',
+    `${import.meta.env.VITE_API_WORKSPACES}`
+  );
+
+  const handleWorkspaceClick = (id: string) => {
+    const filteredWorkspace = workspaces?.find(
+      (workspace) => workspace.id === id
+    );
+    setSelectedWorkspace(filteredWorkspace);
+  };
 
   return (
     <>
-      {!mounted ? (
+      {isPending ? (
         <Box
           sx={{
             position: 'absolute',
@@ -31,8 +42,15 @@ const DashboardPage = () => {
             height: '100%'
           }}
         >
-          <Navbar />
-          <Viewer />
+          <Navbar
+            workspaces={workspaces}
+            isPending={isPending}
+            handleWorkspaceClick={handleWorkspaceClick}
+          />
+          <Viewer
+            workspaces={workspaces}
+            selectedWorkspace={selectedWorkspace}
+          />
         </Box>
       )}
     </>

@@ -3,16 +3,20 @@ import WorkspaceModal from './Navbar/WorkspaceModal';
 import NavbarDrawer from './Navbar/NavbarDrawer';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/material';
-import useQueryAll from '../../hooks/useQueryAll';
 import { TWorkspace } from '../../types/workspace.type';
 
-const Navbar = () => {
-  const [openModal, setOpenModal] = useState(false);
+type NavbarProps = {
+  workspaces: TWorkspace[] | undefined;
+  isPending: boolean;
+  handleWorkspaceClick: (id: string) => void;
+};
 
-  const { data: workspaces, isPending } = useQueryAll<TWorkspace[]>(
-    'workspaces',
-    `${import.meta.env.VITE_API_WORKSPACES}`
-  );
+const Navbar = ({
+  workspaces,
+  isPending,
+  handleWorkspaceClick
+}: NavbarProps) => {
+  const [openModal, setOpenModal] = useState(false);
 
   const toggleModal = () => {
     setOpenModal((prevVal) => !prevVal);
@@ -36,6 +40,7 @@ const Navbar = () => {
           <NavbarDrawer
             toggleModal={toggleModal}
             workspaces={workspaces}
+            handleWorkspaceClick={handleWorkspaceClick}
           />
           <WorkspaceModal
             openModal={openModal}

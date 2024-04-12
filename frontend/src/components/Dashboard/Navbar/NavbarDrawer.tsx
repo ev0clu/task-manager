@@ -49,16 +49,25 @@ const Drawer = styled(MuiDrawer, {
 type NavbarDrawerProps = {
   toggleModal: () => void;
   workspaces: TWorkspace[] | undefined;
+  handleWorkspaceClick: (id: string) => void;
 };
 
 const NavbarDrawer = ({
   toggleModal,
-  workspaces
+  workspaces,
+  handleWorkspaceClick
 }: NavbarDrawerProps) => {
   const matches = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.up('sm')
   );
   const [openDrawer, setOpenDrawer] = useState(matches);
+
+  useEffect(() => {
+    // Update the state whenever the screen size changes
+    if (workspaces !== undefined) {
+      handleWorkspaceClick(workspaces[0].id);
+    }
+  }, []);
 
   useEffect(() => {
     // Update the state whenever the screen size changes
@@ -104,7 +113,10 @@ const NavbarDrawer = ({
         {workspaces !== undefined &&
           workspaces.map((workspace) => {
             return (
-              <ListItemButton key={workspace.id}>
+              <ListItemButton
+                key={workspace.id}
+                onClick={() => handleWorkspaceClick(workspace.id)}
+              >
                 {openDrawer && (
                   <ListItemIcon>
                     <WorkIcon />
