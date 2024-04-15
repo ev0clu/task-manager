@@ -20,21 +20,21 @@ model User {
   email        String      @unique
   password     String?
   role         Role        @default(USER)
-  workspace    Workspace[]
+  workspaces   Workspace[]
   refreshToken String?
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 }
 
 model Workspace {
-  id        String     @id @default(uuid())
-  title     String
-  boards    Board[]
-  activity  Activity[]
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id         String     @id @default(uuid())
+  title      String
+  boards     Board[]
+  activities Activity[]
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 model Board {
@@ -53,6 +53,7 @@ model Activity {
   title       String
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
+  createdAt   DateTime  @default(now())
 }
 
 model List {
