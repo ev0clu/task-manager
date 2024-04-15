@@ -58,13 +58,19 @@ type NavbarDrawerProps = {
   workspaces: TWorkspace[] | undefined;
   handleWorkspaceClick: (id: string) => void;
   selectedWorkspace: TWorkspace | undefined;
+  selectedWorkspaceMenuItem: 'boards' | 'activities';
+  handleBoardsClick: () => void;
+  handleActivityClick: () => void;
 };
 
 const NavbarDrawer = ({
   toggleModal,
   workspaces,
   handleWorkspaceClick,
-  selectedWorkspace
+  selectedWorkspace,
+  selectedWorkspaceMenuItem,
+  handleBoardsClick,
+  handleActivityClick
 }: NavbarDrawerProps) => {
   const matches = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.up('sm')
@@ -175,13 +181,25 @@ const NavbarDrawer = ({
                   unmountOnExit
                 >
                   <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemButton
+                      onClick={handleBoardsClick}
+                      sx={{ pl: 4 }}
+                      selected={
+                        selectedWorkspaceMenuItem === 'boards'
+                      }
+                    >
                       <ListItemIcon>
                         <GridViewIcon />
                       </ListItemIcon>
                       <ListItemText primary="Boards" />
                     </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemButton
+                      onClick={handleActivityClick}
+                      sx={{ pl: 4 }}
+                      selected={
+                        selectedWorkspaceMenuItem === 'activities'
+                      }
+                    >
                       <ListItemIcon>
                         <TimelineIcon />
                       </ListItemIcon>

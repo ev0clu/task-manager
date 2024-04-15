@@ -5,9 +5,13 @@ import Viewer from '../components/Dashboard/Viewer';
 import useQueryAll from '../hooks/useQueryAll';
 import { TWorkspace } from '../types/workspace.type';
 
+type TWorkspaceMenuItem = 'boards' | 'activities';
+
 const DashboardPage = () => {
   const [selectedWorkspace, setSelectedWorkspace] =
     useState<TWorkspace>();
+  const [selectedWorkspaceMenuItem, setSelectedWorkspaceMenuItem] =
+    useState<TWorkspaceMenuItem>('boards');
 
   const { data: workspaces, isPending } = useQueryAll<TWorkspace[]>(
     'workspaces',
@@ -23,6 +27,15 @@ const DashboardPage = () => {
         ? undefined
         : filteredWorkspace
     );
+    setSelectedWorkspaceMenuItem('boards');
+  };
+
+  const handleBoardsClick = () => {
+    setSelectedWorkspaceMenuItem('boards');
+  };
+
+  const handleActivityClick = () => {
+    setSelectedWorkspaceMenuItem('activities');
   };
 
   return (
@@ -51,8 +64,14 @@ const DashboardPage = () => {
             isPending={isPending}
             handleWorkspaceClick={handleWorkspaceClick}
             selectedWorkspace={selectedWorkspace}
+            selectedWorkspaceMenuItem={selectedWorkspaceMenuItem}
+            handleBoardsClick={handleBoardsClick}
+            handleActivityClick={handleActivityClick}
           />
-          <Viewer selectedWorkspace={selectedWorkspace} />
+          <Viewer
+            selectedWorkspace={selectedWorkspace}
+            selectedWorkspaceMenuItem={selectedWorkspaceMenuItem}
+          />
         </Box>
       )}
     </>
