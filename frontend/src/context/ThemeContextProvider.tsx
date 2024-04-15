@@ -14,7 +14,10 @@ const ThemeContext = createContext<ThemeContextType>({
 const restoreLocalStorage = (): 'light' | 'dark' => {
   if (typeof window !== 'undefined') {
     const value = localStorage.getItem('theme');
-    return value ? 'dark' : 'light';
+    if (value === 'light' || value === 'dark') {
+      return value;
+    }
+    return 'light';
   }
   return 'light';
 };
