@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../context/ThemeContextProvider';
 import logoSrc from '../assets/logo.png';
 import {
@@ -18,11 +18,25 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { useAuth } from '../context/AuthContextProvider';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { jwtDecode } from 'jwt-decode';
 
 const Header = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { accessToken, clearToken } = useAuth();
+  const [userId, setUserId] = useState<string>();
+
+  useEffect(() => {
+    if (accessToken !== null) {
+      const decodedAccessToken = jwtDecode(accessToken!);
+      if (
+        decodedAccessToken !== undefined &&
+        typeof decodedAccessToken.sub === 'string'
+      ) {
+        setUserId(decodedAccessToken.sub);
+      }
+    }
+  }, [accessToken]);
 
   const logout = async () => {
     try {
@@ -95,7 +109,7 @@ const Header = () => {
         {accessToken && (
           <Tooltip title="Settings">
             <IconButton
-              href="/profile"
+              href={`/profile/${userId}`}
               aria-label="profile"
               size="medium"
               color="primary"
