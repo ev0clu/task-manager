@@ -5,7 +5,7 @@ export type TWorkspace = {
   id: string;
   title: string;
   boards?: CreateBoardDto[];
-  activity?: CreateActivityDto[];
+  activities?: CreateActivityDto[];
   userId: string;
   createdAt: Date;
   updatedAt: Date;

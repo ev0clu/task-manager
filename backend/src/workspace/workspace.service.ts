@@ -15,7 +15,7 @@ export class WorkspaceService {
       },
       include: {
         boards: true,
-        activity: true,
+        activities: true,
       },
     });
 
@@ -31,7 +31,7 @@ export class WorkspaceService {
       where: {
         id,
       },
-      include: { activity: true, boards: true },
+      include: { activities: true, boards: true },
     });
 
     if (!workspace) {
