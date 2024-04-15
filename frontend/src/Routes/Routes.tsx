@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom';
 import ProtectedRoutes from './ProtectedRoutes.tsx';
 import PublicRoutes from './PublicRoutes.tsx';
+import BoardPage from '../pages/BoardPage.tsx';
 
 const Routes = () => {
   const router = createBrowserRouter(
@@ -39,7 +40,8 @@ const Routes = () => {
             path="/dashboard"
             element={<DashboardPage />}
           />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:userId" element={<ProfilePage />} />
+          <Route path="/boards/:boardId" element={<BoardPage />} />
         </Route>
       </>
     )
