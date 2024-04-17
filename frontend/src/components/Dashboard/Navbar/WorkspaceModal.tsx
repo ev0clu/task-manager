@@ -42,10 +42,13 @@ const WorkspaceModal = ({
     }
   });
 
-  const mutation = useMutationWorkspaceCreate({ toggleModal, reset });
+  const workspaceMutation = useMutationWorkspaceCreate({
+    toggleModal,
+    reset
+  });
 
   const onSubmit = (data: formType) => {
-    mutation.mutate(data);
+    workspaceMutation.mutate(data);
   };
 
   return (
@@ -137,7 +140,7 @@ const WorkspaceModal = ({
                 type="submit"
                 size="small"
                 endIcon={<SendIcon />}
-                loading={mutation.isPending}
+                loading={workspaceMutation.isPending}
                 loadingPosition="end"
                 variant="contained"
                 sx={{ width: '6rem' }}
@@ -145,9 +148,9 @@ const WorkspaceModal = ({
                 <span>Create</span>
               </LoadingButton>
             </Stack>
-            {mutation.error && (
-              <FormHelperText error={mutation.isError}>
-                {mutation.error.message}
+            {workspaceMutation.error && (
+              <FormHelperText error={workspaceMutation.isError}>
+                {workspaceMutation.error.message}
               </FormHelperText>
             )}
           </Stack>

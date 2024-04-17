@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContextProvider';
 import { z } from 'zod';
 import isTokenExpired from '../lib/isTokenExpired';
 import { UseFormReset } from 'react-hook-form';
+import { TWorkspace } from '../types/workspace.type';
+import submitActivity from '../lib/submitActivity';
 
 const formSchema = z.object({
   workspace: z.string().min(1, 'Workspace is required').trim()
@@ -60,17 +62,28 @@ const useMutationWorkspaceCreate = ({
         }
       }
 
-      const responseData = await submitHandler(data, accesT);
+      const responseData: TWorkspace = await submitHandler(
+        data,
+        accesT
+      );
+
+      await submitActivity(
+        `${import.meta.env.VITE_API_WORKSPACES}`,
+        responseData.id,
+        responseData.title,
+        'created',
+        accesT
+      );
 
       return responseData;
     },
     onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['workspaces'] });
       reset({
         workspace: ''
       });
       toggleModal();
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['workspaces'] });
     }
   });
 
