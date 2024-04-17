@@ -71,6 +71,7 @@ const DashboardPage = () => {
           <Viewer
             selectedWorkspace={selectedWorkspace}
             selectedWorkspaceMenuItem={selectedWorkspaceMenuItem}
+            handleWorkspaceClick={handleWorkspaceClick}
           />
         </Box>
       )}

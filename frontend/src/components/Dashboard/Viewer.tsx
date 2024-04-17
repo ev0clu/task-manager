@@ -8,15 +8,20 @@ import HeaderViewer from './Viewer/HeaderViewer';
 type ViwerProps = {
   selectedWorkspace: TWorkspace | undefined;
   selectedWorkspaceMenuItem: 'boards' | 'activities';
+  handleWorkspaceClick: (id: string) => void;
 };
 
 const Viewer = ({
   selectedWorkspace,
-  selectedWorkspaceMenuItem
+  selectedWorkspaceMenuItem,
+  handleWorkspaceClick
 }: ViwerProps) => {
   return (
     <Stack direction={'column'} gap={3} paddingX={'2rem'} flex={1}>
-      <HeaderViewer selectedWorkspace={selectedWorkspace} />
+      <HeaderViewer
+        selectedWorkspace={selectedWorkspace}
+        handleWorkspaceClick={handleWorkspaceClick}
+      />
       <Divider />
       {selectedWorkspace === undefined ? (
         <Typography variant="h6">Choose a Workspace</Typography>
