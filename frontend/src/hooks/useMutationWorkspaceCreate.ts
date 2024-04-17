@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../context/AuthContextProvider';
 import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import isTokenExpired from '../lib/isTokenExpired';
+import { UseFormReset } from 'react-hook-form';
 
 const formSchema = z.object({
   workspace: z.string().min(1, 'Workspace is required').trim()
@@ -11,28 +10,20 @@ const formSchema = z.object({
 
 type formType = z.infer<typeof formSchema>;
 
-type useMutationWorkspaceAllProps = {
+type useMutationWorkspaceCreateProps = {
   toggleModal: () => void;
+  reset: UseFormReset<{
+    workspace: string;
+  }>;
 };
 
-const useMutationWorkspaceAll = ({
-  toggleModal
-}: useMutationWorkspaceAllProps) => {
+const useMutationWorkspaceCreate = ({
+  toggleModal,
+  reset
+}: useMutationWorkspaceCreateProps) => {
   const queryClient = useQueryClient();
   const { accessToken, refreshToken, setToken, clearToken } =
     useAuth();
-
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm<formType>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      workspace: ''
-    }
-  });
 
   const mutation = useMutation({
     mutationFn: async (data: formType) => {
@@ -106,18 +97,9 @@ const useMutationWorkspaceAll = ({
     return body;
   };
 
-  const onSubmit = (data: formType) => {
-    mutation.mutate(data);
-  };
-
   return {
-    ...mutation,
-    control,
-    reset,
-    formError: errors,
-    handleSubmit,
-    onSubmit
+    ...mutation
   };
 };
 
-export default useMutationWorkspaceAll;
+export default useMutationWorkspaceCreate;

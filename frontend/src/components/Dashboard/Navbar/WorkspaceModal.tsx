@@ -10,8 +10,16 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { LoadingButton } from '@mui/lab';
-import { Controller } from 'react-hook-form';
-import useMutationWorkspaceAll from '../../../hooks/useMutationWorkspaceAll';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import useMutationWorkspaceCreate from '../../../hooks/useMutationWorkspaceCreate';
+
+const formSchema = z.object({
+  workspace: z.string().min(1, 'Workspace is required').trim()
+});
+
+type formType = z.infer<typeof formSchema>;
 
 type WorkspaceModalProps = {
   openModal: boolean;
@@ -23,15 +31,22 @@ const WorkspaceModal = ({
   toggleModal
 }: WorkspaceModalProps) => {
   const {
-    error,
-    isError,
-    isPending,
     control,
-    reset,
-    formError,
     handleSubmit,
-    onSubmit
-  } = useMutationWorkspaceAll({ toggleModal });
+    reset,
+    formState: { errors }
+  } = useForm<formType>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      workspace: ''
+    }
+  });
+
+  const mutation = useMutationWorkspaceCreate({ toggleModal, reset });
+
+  const onSubmit = (data: formType) => {
+    mutation.mutate(data);
+  };
 
   return (
     <Modal
@@ -95,10 +110,10 @@ const WorkspaceModal = ({
               <FormHelperText
                 id="workspace-error-text"
                 error={
-                  formError.workspace?.message !== '' ? true : false
+                  errors.workspace?.message !== '' ? true : false
                 }
               >
-                {formError.workspace?.message}
+                {errors.workspace?.message}
               </FormHelperText>
             </FormControl>
 
@@ -122,7 +137,7 @@ const WorkspaceModal = ({
                 type="submit"
                 size="small"
                 endIcon={<SendIcon />}
-                loading={isPending}
+                loading={mutation.isPending}
                 loadingPosition="end"
                 variant="contained"
                 sx={{ width: '6rem' }}
@@ -130,9 +145,9 @@ const WorkspaceModal = ({
                 <span>Create</span>
               </LoadingButton>
             </Stack>
-            {error && (
-              <FormHelperText error={isError}>
-                {error.message}
+            {mutation.error && (
+              <FormHelperText error={mutation.isError}>
+                {mutation.error.message}
               </FormHelperText>
             )}
           </Stack>
