@@ -35,15 +35,6 @@ const useMutationWorkspaceDelete = ({
 
       const responseData = await submitHandler(accessT);
 
-      await submitActivity(
-        `${import.meta.env.VITE_API_WORKSPACES}`,
-        responseData.id,
-        responseData.title,
-        'workspace',
-        'deleted',
-        accessT
-      );
-
       return responseData;
     },
     onSuccess: () => {
