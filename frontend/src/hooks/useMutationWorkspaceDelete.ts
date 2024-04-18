@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../context/AuthContextProvider';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
-import submitActivity from '../lib/submitActivity';
 
 type useMutationWorkspaceDeleteProps = {
   selectedWorkspaceId: string | undefined;
