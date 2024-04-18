@@ -27,7 +27,7 @@ const Header = () => {
   const [userId, setUserId] = useState<string>();
 
   useEffect(() => {
-    if (accessToken !== null) {
+    if (accessToken !== null && accessToken) {
       const decodedAccessToken = jwtDecode(accessToken!);
       if (
         decodedAccessToken !== undefined &&
