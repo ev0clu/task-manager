@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import WorkspaceModal from './Navbar/WorkspaceModal';
+import WorkspaceModal from './Modal/WorkspaceModal';
 import NavbarDrawer from './Navbar/NavbarDrawer';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/material';

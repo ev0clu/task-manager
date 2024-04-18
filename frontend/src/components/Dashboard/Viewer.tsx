@@ -26,7 +26,7 @@ const Viewer = ({
       {selectedWorkspace === undefined ? (
         <Typography variant="h6">Choose a Workspace</Typography>
       ) : selectedWorkspaceMenuItem === 'boards' ? (
-        <BoardsViewer selectedWorkspace={selectedWorkspace} />
+        <BoardsViewer selectedWorkspaceId={selectedWorkspace.id} />
       ) : (
         <ActivitiesViewer selectedWorkspace={selectedWorkspace} />
       )}

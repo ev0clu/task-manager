@@ -2,17 +2,18 @@ const submitActivity = async (
   url: string,
   workspaceId: string,
   itemTitle: string,
+  item: string,
   activity: string,
-  token: string | null
+  accessT: string | null
 ) => {
   const response = await fetch(`${url}/${workspaceId}/activities`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token
+      Authorization: 'Bearer ' + accessT
     },
     body: JSON.stringify({
-      title: `"${itemTitle}" is ${activity}`
+      title: `"${itemTitle}" ${item} is ${activity}`
     })
   });
 

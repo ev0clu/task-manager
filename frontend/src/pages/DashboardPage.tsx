@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../components/Dashboard/Navbar';
 import { Box, CircularProgress } from '@mui/material';
 import Viewer from '../components/Dashboard/Viewer';
 import useQueryAll from '../hooks/useQueryAll';
 import { TWorkspace } from '../types/workspace.type';
+import { toast } from 'react-toastify';
 
 type TWorkspaceMenuItem = 'boards' | 'activities';
 
@@ -13,10 +14,21 @@ const DashboardPage = () => {
   const [selectedWorkspaceMenuItem, setSelectedWorkspaceMenuItem] =
     useState<TWorkspaceMenuItem>('boards');
 
-  const { data: workspaces, isPending } = useQueryAll<TWorkspace[]>(
+  const {
+    data: workspaces,
+    isPending,
+    isError,
+    error
+  } = useQueryAll<TWorkspace[]>(
     'workspaces',
     `${import.meta.env.VITE_API_WORKSPACES}`
   );
+
+  useEffect(() => {
+    if (error) {
+      toast.error(`${error}`);
+    }
+  }, [isError]);
 
   const handleWorkspaceClick = (id: string) => {
     const filteredWorkspace = workspaces?.find(

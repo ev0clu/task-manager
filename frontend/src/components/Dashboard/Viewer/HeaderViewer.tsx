@@ -51,11 +51,11 @@ const HeaderViewer = ({
   });
 
   const updateMutation = useMutationWorkspaceUpdate({
-    selectedWorkspace
+    selectedWorkspaceId: selectedWorkspace?.id
   });
 
   const deleteMutation = useMutationWorkspaceDelete({
-    selectedWorkspace,
+    selectedWorkspaceId: selectedWorkspace?.id,
     handleWorkspaceClick
   });
 

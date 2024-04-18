@@ -3,7 +3,10 @@ import {
   Button,
   FormControl,
   FormHelperText,
+  InputLabel,
+  MenuItem,
   Modal,
+  Select,
   Stack,
   TextField,
   Typography
@@ -13,23 +16,32 @@ import { LoadingButton } from '@mui/lab';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import useMutationWorkspaceCreate from '../../../hooks/useMutationWorkspaceCreate';
+import useMutationBoardCreate from '../../../hooks/useMutationBoardCreate';
+
+const colorList = [
+  { key: 'RED', value: 'Red' },
+  { key: 'GREEN', value: 'Green' },
+  { key: 'BLUE', value: 'Blue' }
+];
 
 const formSchema = z.object({
-  workspace: z.string().min(1, 'Workspace is required').trim()
+  title: z.string().min(1, 'Board is required').trim(),
+  color: z.enum(['RED', 'GREEN', 'BLUE'])
 });
 
 type formType = z.infer<typeof formSchema>;
 
-type WorkspaceModalProps = {
+type BoardModalProps = {
   openModal: boolean;
   toggleModal: () => void;
+  selectedWorkspaceId: string | undefined;
 };
 
-const WorkspaceModal = ({
+const BoardModal = ({
   openModal,
-  toggleModal
-}: WorkspaceModalProps) => {
+  toggleModal,
+  selectedWorkspaceId
+}: BoardModalProps) => {
   const {
     control,
     handleSubmit,
@@ -38,26 +50,28 @@ const WorkspaceModal = ({
   } = useForm<formType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      workspace: ''
+      title: '',
+      color: 'RED'
     }
   });
 
-  const workspaceMutation = useMutationWorkspaceCreate({
+  const boardMutation = useMutationBoardCreate({
     toggleModal,
-    reset
+    reset,
+    selectedWorkspaceId
   });
 
   const onSubmit = (data: formType) => {
-    workspaceMutation.mutate(data);
+    boardMutation.mutate(data);
   };
 
   return (
     <Modal
-      keepMounted
       open={openModal}
       onClose={() => {
         reset({
-          workspace: ''
+          title: '',
+          color: 'RED'
         });
         toggleModal();
       }}
@@ -85,7 +99,7 @@ const WorkspaceModal = ({
               marginBottom: '1rem'
             }}
           >
-            Create Workspace
+            Create Board
           </Typography>
         </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -99,12 +113,12 @@ const WorkspaceModal = ({
               variant="outlined"
             >
               <Controller
-                name="workspace"
+                name="title"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     id="outlined-basic"
-                    label="Workspace"
+                    label="Title"
                     variant="outlined"
                     {...field}
                   />
@@ -112,11 +126,43 @@ const WorkspaceModal = ({
               />
               <FormHelperText
                 id="workspace-error-text"
-                error={
-                  errors.workspace?.message !== '' ? true : false
-                }
+                error={errors.title?.message !== '' ? true : false}
               >
-                {errors.workspace?.message}
+                {errors.title?.message}
+              </FormHelperText>
+            </FormControl>
+            <FormControl
+              sx={{ m: 1, width: '30ch' }}
+              variant="outlined"
+            >
+              <InputLabel id="demo-simple-select-label">
+                Color
+              </InputLabel>
+              <Controller
+                name="color"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Age"
+                    {...field}
+                  >
+                    {colorList.map((color, index) => {
+                      return (
+                        <MenuItem key={index} value={color.key}>
+                          {color.value}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                )}
+              />
+              <FormHelperText
+                id="workspace-error-text"
+                error={errors.title?.message !== '' ? true : false}
+              >
+                {errors.title?.message}
               </FormHelperText>
             </FormControl>
 
@@ -132,7 +178,13 @@ const WorkspaceModal = ({
                 size="small"
                 variant="contained"
                 sx={{ width: '6rem' }}
-                onClick={toggleModal}
+                onClick={() => {
+                  reset({
+                    title: '',
+                    color: 'RED'
+                  });
+                  toggleModal();
+                }}
               >
                 <span>Cancel</span>
               </Button>
@@ -140,7 +192,7 @@ const WorkspaceModal = ({
                 type="submit"
                 size="small"
                 endIcon={<SendIcon />}
-                loading={workspaceMutation.isPending}
+                loading={boardMutation.isPending}
                 loadingPosition="end"
                 variant="contained"
                 sx={{ width: '6rem' }}
@@ -148,9 +200,9 @@ const WorkspaceModal = ({
                 <span>Create</span>
               </LoadingButton>
             </Stack>
-            {workspaceMutation.error && (
-              <FormHelperText error={workspaceMutation.isError}>
-                {workspaceMutation.error.message}
+            {boardMutation.error && (
+              <FormHelperText error={boardMutation.isError}>
+                {boardMutation.error.message}
               </FormHelperText>
             )}
           </Stack>
@@ -160,4 +212,4 @@ const WorkspaceModal = ({
   );
 };
 
-export default WorkspaceModal;
+export default BoardModal;
