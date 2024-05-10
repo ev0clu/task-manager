@@ -44,12 +44,15 @@ const BoardTitleForm = ({ board }: BoardTitleFormProps) => {
   });
 
   const updateMutation = useMutationBoardUpdate({
-    boardId: board?.id
+    boardId: board?.id,
+    boardTitle: board?.title,
+    workspaceId: board?.workspaceId
   });
 
   const deleteMutation = useMutationBoardDelete({
     boardId: board?.id,
-    boardTitle: board?.title
+    boardTitle: board?.title,
+    workspaceId: board?.workspaceId
   });
 
   const onSubmit = (data: formType) => {

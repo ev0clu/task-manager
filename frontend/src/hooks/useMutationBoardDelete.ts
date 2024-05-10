@@ -3,15 +3,18 @@ import { useAuth } from '../context/AuthContextProvider';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import submitActivity from '../lib/submitActivity';
 
 type useMutationBoardDeleteProps = {
   boardId: string | undefined;
   boardTitle: string | undefined;
+  workspaceId: string | undefined;
 };
 
 const useMutationBoardDelete = ({
   boardId,
-  boardTitle
+  boardTitle,
+  workspaceId
 }: useMutationBoardDeleteProps) => {
   const navigate = useNavigate();
   const { accessToken, refreshToken, setToken, clearToken } =
@@ -35,6 +38,15 @@ const useMutationBoardDelete = ({
       );
 
       const responseData = await submitHandler(accessT);
+
+      await submitActivity(
+        `${import.meta.env.VITE_API_WORKSPACES}`,
+        workspaceId!,
+        boardTitle!,
+        'board',
+        'deleted',
+        accessT
+      );
 
       return responseData;
     },
