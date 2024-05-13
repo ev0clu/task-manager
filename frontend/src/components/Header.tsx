@@ -56,9 +56,13 @@ const Header = () => {
         navigate('/');
       } else {
         const body = await response.json();
+        clearToken();
+        navigate('/');
         toast.error(body.message);
       }
     } catch (error) {
+      clearToken();
+      navigate('/');
       toast.error('An unexpected error is occured');
     }
   };
