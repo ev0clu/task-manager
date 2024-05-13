@@ -11,13 +11,17 @@ import { TList } from '../../types/list.type';
 import ListMenu from './Lists/ListMenu';
 import ListModalCreate from './Modal/ListModalCreate';
 
-type ListProps = {
+type ListComponentProps = {
   workspaceId: string | undefined;
   boardId: string | undefined;
   lists: TList[] | undefined;
 };
 
-const List = ({ workspaceId, boardId, lists }: ListProps) => {
+const ListComponent = ({
+  workspaceId,
+  boardId,
+  lists
+}: ListComponentProps) => {
   const [openCreateModal, setOpenCreateModal] = useState(false);
 
   const toggleCreateModal = () => {
@@ -125,4 +129,4 @@ const List = ({ workspaceId, boardId, lists }: ListProps) => {
   );
 };
 
-export default List;
+export default ListComponent;
