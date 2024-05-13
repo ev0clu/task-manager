@@ -10,6 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { TList } from '../../types/list.type';
 import ListMenu from './Lists/ListMenu';
 import ListModalCreate from './Modal/ListModalCreate';
+import CardComponent from './CardComponent';
 
 type ListComponentProps = {
   workspaceId: string | undefined;
@@ -54,44 +55,10 @@ const ListComponent = ({
                 listTitle={list.title}
               />
             </CardContent>
-            <CardContent
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px',
-                p: '8px'
-              }}
-            >
-              {list.cards?.map((card) => {
-                return (
-                  <Button
-                    key={card.id}
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      width: '100%',
-                      justifyContent: 'start',
-                      textTransform: 'none',
-                      fontSize: '0.9rem'
-                    }}
-                  >
-                    {card.title}
-                  </Button>
-                );
-              })}
-              <Button
-                variant="outlined"
-                size="small"
-                sx={{
-                  width: '100%',
-                  justifyContent: 'start',
-                  textTransform: 'none',
-                  fontSize: '0.9rem'
-                }}
-              >
-                <AddIcon /> Add a card
-              </Button>
-            </CardContent>
+            <CardComponent
+              workspaceId={workspaceId}
+              listId={list.id}
+            />
           </Card>
         );
       })}
