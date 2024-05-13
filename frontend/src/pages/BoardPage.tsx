@@ -31,7 +31,7 @@ const BoardPage = () => {
         <Container>
           <BoardTitleForm board={queryBoard.data} />
           <Lists
-            worskpaceId={queryBoard.data?.workspaceId}
+            workspaceId={queryBoard.data?.workspaceId}
             boardId={queryBoard.data?.id}
             lists={queryBoard.data?.lists}
           />

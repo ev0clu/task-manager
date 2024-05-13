@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Button,
   Card,
@@ -7,20 +8,20 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { TList } from '../../types/list.type';
-import ListModal from './Modal/ListModal';
-import { useState } from 'react';
+import ListMenu from './Lists/ListMenu';
+import ListModalCreate from './Modal/ListModalCreate';
 
 type ListProps = {
-  worskpaceId: string | undefined;
+  workspaceId: string | undefined;
   boardId: string | undefined;
   lists: TList[] | undefined;
 };
 
-const List = ({ worskpaceId, boardId, lists }: ListProps) => {
-  const [openModal, setOpenModal] = useState(false);
+const List = ({ workspaceId, boardId, lists }: ListProps) => {
+  const [openCreateModal, setOpenCreateModal] = useState(false);
 
-  const toggleModal = () => {
-    setOpenModal((prevVal) => !prevVal);
+  const toggleCreateModal = () => {
+    setOpenCreateModal((prevVal) => !prevVal);
   };
 
   return (
@@ -31,10 +32,23 @@ const List = ({ worskpaceId, boardId, lists }: ListProps) => {
             key={list.id}
             sx={{ width: 345, height: 'max-content' }}
           >
-            <CardContent>
+            <CardContent
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}
+            >
               <Typography gutterBottom variant="h6" component="div">
                 {list.title}
               </Typography>
+              <ListMenu
+                workspaceId={workspaceId}
+                boardId={boardId}
+                listId={list.id}
+                listTitle={list.title}
+              />
             </CardContent>
             <CardContent
               sx={{
@@ -95,16 +109,16 @@ const List = ({ worskpaceId, boardId, lists }: ListProps) => {
               textTransform: 'none',
               fontSize: '0.9rem'
             }}
-            onClick={toggleModal}
+            onClick={toggleCreateModal}
           >
             <AddIcon /> Add a list
           </Button>
         </CardContent>
       </Card>
-      <ListModal
-        openModal={openModal}
-        toggleModal={toggleModal}
-        workspaceId={worskpaceId}
+      <ListModalCreate
+        openModal={openCreateModal}
+        toggleModal={toggleCreateModal}
+        workspaceId={workspaceId}
         boardId={boardId}
       />
     </Stack>

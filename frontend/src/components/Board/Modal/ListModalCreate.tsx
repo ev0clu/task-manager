@@ -21,19 +21,19 @@ const formSchema = z.object({
 
 type formType = z.infer<typeof formSchema>;
 
-type ListModalProps = {
+type ListModalCreateProps = {
   openModal: boolean;
   toggleModal: () => void;
   workspaceId: string | undefined;
   boardId: string | undefined;
 };
 
-const ListModal = ({
+const ListModalCreate = ({
   openModal,
   toggleModal,
   workspaceId,
   boardId
-}: ListModalProps) => {
+}: ListModalCreateProps) => {
   const {
     control,
     handleSubmit,
@@ -168,4 +168,4 @@ const ListModal = ({
   );
 };
 
-export default ListModal;
+export default ListModalCreate;
