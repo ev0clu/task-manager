@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ListModalDelete from '../Modal/ListModalDelete';
-import ListModalEdit from '../Modal/ListModalEdit';
+import ListModalUpdate from '../Modal/ListModalUpdate';
 
 type ListMenuProps = {
   workspaceId: string | undefined;
@@ -21,15 +21,15 @@ const ListMenu = ({
 }: ListMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
 
   const toggleDeleteModal = () => {
     setOpenDeleteModal((prevVal) => !prevVal);
     handleClose();
   };
 
-  const toggleEditModal = () => {
-    setOpenEditModal((prevVal) => !prevVal);
+  const toggleUpdateModal = () => {
+    setOpenUpdateModal((prevVal) => !prevVal);
     handleClose();
   };
 
@@ -63,12 +63,12 @@ const ListMenu = ({
           'aria-labelledby': 'basic-button'
         }}
       >
-        <MenuItem onClick={toggleEditModal}>Edit</MenuItem>
+        <MenuItem onClick={toggleUpdateModal}>Update</MenuItem>
         <MenuItem onClick={toggleDeleteModal}>Delete</MenuItem>
       </Menu>
-      <ListModalEdit
-        openModal={openEditModal}
-        toggleModal={toggleEditModal}
+      <ListModalUpdate
+        openModal={openUpdateModal}
+        toggleModal={toggleUpdateModal}
         workspaceId={workspaceId}
         boardId={boardId}
         listId={listId}

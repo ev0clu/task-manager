@@ -13,7 +13,7 @@ import { LoadingButton } from '@mui/lab';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import useMutationListEdit from '../../../hooks/useMutationListEdit';
+import useMutationListUpdate from '../../../hooks/useMutationListUpdate';
 
 const formSchema = z.object({
   list: z.string().min(1, 'List is required').trim()
@@ -21,7 +21,7 @@ const formSchema = z.object({
 
 type formType = z.infer<typeof formSchema>;
 
-type ListModalEditProps = {
+type ListModalUpdateProps = {
   openModal: boolean;
   toggleModal: () => void;
   workspaceId: string | undefined;
@@ -29,13 +29,13 @@ type ListModalEditProps = {
   listId: string | undefined;
 };
 
-const ListModalEdit = ({
+const ListModalUpdate = ({
   openModal,
   toggleModal,
   workspaceId,
   boardId,
   listId
-}: ListModalEditProps) => {
+}: ListModalUpdateProps) => {
   const {
     control,
     handleSubmit,
@@ -48,7 +48,7 @@ const ListModalEdit = ({
     }
   });
 
-  const listMutation = useMutationListEdit({
+  const listMutation = useMutationListUpdate({
     toggleModal,
     reset,
     workspaceId,
@@ -171,4 +171,4 @@ const ListModalEdit = ({
   );
 };
 
-export default ListModalEdit;
+export default ListModalUpdate;

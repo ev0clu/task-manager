@@ -12,7 +12,7 @@ const formSchema = z.object({
 
 type formType = z.infer<typeof formSchema>;
 
-type useMutationListEditProps = {
+type useMutationListUpdateProps = {
   toggleModal: () => void;
   reset: UseFormReset<{
     list: string;
@@ -22,13 +22,13 @@ type useMutationListEditProps = {
   listId: string | undefined;
 };
 
-const useMutationListEdit = ({
+const useMutationListUpdate = ({
   toggleModal,
   reset,
   workspaceId,
   boardId,
   listId
-}: useMutationListEditProps) => {
+}: useMutationListUpdateProps) => {
   const queryClient = useQueryClient();
   const { accessToken, refreshToken, setToken, clearToken } =
     useAuth();
@@ -101,4 +101,4 @@ const useMutationListEdit = ({
   };
 };
 
-export default useMutationListEdit;
+export default useMutationListUpdate;
