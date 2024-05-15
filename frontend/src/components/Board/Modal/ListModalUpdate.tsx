@@ -27,6 +27,7 @@ type ListModalUpdateProps = {
   workspaceId: string | undefined;
   boardId: string | undefined;
   listId: string | undefined;
+  listTitle: string | undefined;
 };
 
 const ListModalUpdate = ({
@@ -34,23 +35,25 @@ const ListModalUpdate = ({
   toggleModal,
   workspaceId,
   boardId,
-  listId
+  listId,
+  listTitle
 }: ListModalUpdateProps) => {
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors }
   } = useForm<formType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      list: ''
+      list: listTitle
+    },
+    values: {
+      list: listTitle!
     }
   });
 
   const listMutation = useMutationListUpdate({
     toggleModal,
-    reset,
     workspaceId,
     boardId,
     listId
@@ -63,12 +66,7 @@ const ListModalUpdate = ({
   return (
     <Modal
       open={openModal}
-      onClose={() => {
-        reset({
-          list: ''
-        });
-        toggleModal();
-      }}
+      onClose={toggleModal}
       aria-labelledby="keep-mounted-modal-title"
       aria-describedby="keep-mounted-modal-description"
     >
@@ -138,12 +136,7 @@ const ListModalUpdate = ({
                 size="small"
                 variant="contained"
                 sx={{ width: '6rem' }}
-                onClick={() => {
-                  reset({
-                    list: ''
-                  });
-                  toggleModal();
-                }}
+                onClick={toggleModal}
               >
                 <span>Cancel</span>
               </Button>

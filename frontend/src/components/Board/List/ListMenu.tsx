@@ -72,6 +72,7 @@ const ListMenu = ({
         workspaceId={workspaceId}
         boardId={boardId}
         listId={listId}
+        listTitle={listTitle}
       />
       <ListModalDelete
         openModal={openDeleteModal}

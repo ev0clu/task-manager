@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../context/AuthContextProvider';
 import { z } from 'zod';
-import { UseFormReset } from 'react-hook-form';
 import submitActivity from '../lib/submitActivity';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
 import { TList } from '../types/list.type';
@@ -14,9 +13,6 @@ type formType = z.infer<typeof formSchema>;
 
 type useMutationListUpdateProps = {
   toggleModal: () => void;
-  reset: UseFormReset<{
-    list: string;
-  }>;
   workspaceId: string | undefined;
   boardId: string | undefined;
   listId: string | undefined;
@@ -24,7 +20,6 @@ type useMutationListUpdateProps = {
 
 const useMutationListUpdate = ({
   toggleModal,
-  reset,
   workspaceId,
   boardId,
   listId
@@ -64,9 +59,6 @@ const useMutationListUpdate = ({
       return responseData;
     },
     onSuccess: () => {
-      reset({
-        list: ''
-      });
       toggleModal();
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['board', boardId] });
