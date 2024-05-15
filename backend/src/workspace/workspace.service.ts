@@ -17,6 +17,11 @@ export class WorkspaceService {
         boards: true,
         activities: true,
       },
+      orderBy: [
+        {
+          createdAt: 'asc',
+        },
+      ],
     });
 
     if (!workspace) {

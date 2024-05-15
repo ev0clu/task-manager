@@ -13,6 +13,11 @@ export class CardService {
       where: {
         listId,
       },
+      orderBy: [
+        {
+          createdAt: 'asc',
+        },
+      ],
     });
 
     if (!card) {

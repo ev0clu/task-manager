@@ -16,6 +16,11 @@ export class ListService {
       include: {
         cards: true,
       },
+      orderBy: [
+        {
+          createdAt: 'asc',
+        },
+      ],
     });
 
     if (!list) {
