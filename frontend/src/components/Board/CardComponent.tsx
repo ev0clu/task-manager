@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { Button, CardContent } from '@mui/material';
+import {
+  Button,
+  CardContent,
+  Theme,
+  Typography,
+  useMediaQuery
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { TCard } from '../../types/card.type';
 import CardModalCreate from './Modal/CardModalCreate';
@@ -15,6 +21,9 @@ const CardComponent = ({
   workspaceId,
   listId
 }: CardComponentProps) => {
+  const matches = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.up('sm')
+  );
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState('');
@@ -68,13 +77,19 @@ const CardComponent = ({
           size="small"
           sx={{
             width: '100%',
-            justifyContent: 'start',
+            justifyContent: matches ? 'start' : 'center',
             textTransform: 'none',
             fontSize: '0.9rem'
           }}
           onClick={toggleCreateModal}
         >
-          <AddIcon /> Add a card
+          <AddIcon />
+          <Typography
+            variant="subtitle1"
+            sx={{ display: matches ? 'block' : 'none' }}
+          >
+            Add a card
+          </Typography>
         </Button>
       </CardContent>
       <CardModalCreate
