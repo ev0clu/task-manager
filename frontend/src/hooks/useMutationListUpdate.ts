@@ -4,6 +4,7 @@ import { z } from 'zod';
 import submitActivity from '../lib/submitActivity';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
 import { TList } from '../types/list.type';
+import { toast } from 'react-toastify';
 
 const formSchema = z.object({
   list: z.string().min(1, 'List is required').trim()
@@ -58,7 +59,8 @@ const useMutationListUpdate = ({
 
       return responseData;
     },
-    onSuccess: () => {
+    onSuccess: (data: TList) => {
+      toast.success(`${data.title} is successfully updated`);
       toggleModal();
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['board', boardId] });

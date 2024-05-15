@@ -5,6 +5,7 @@ import { UseFormReset } from 'react-hook-form';
 import { TWorkspace } from '../types/workspace.type';
 import submitActivity from '../lib/submitActivity';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
+import { toast } from 'react-toastify';
 
 const formSchema = z.object({
   workspace: z.string().min(1, 'Workspace is required').trim()
@@ -60,7 +61,8 @@ const useMutationWorkspaceCreate = ({
 
       return responseData;
     },
-    onSuccess: () => {
+    onSuccess: (data: TWorkspace) => {
+      toast.success(`${data.title} is successfully created`);
       reset({
         workspace: ''
       });

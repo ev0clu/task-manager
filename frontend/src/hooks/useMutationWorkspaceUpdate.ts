@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContextProvider';
 import { z } from 'zod';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
 import submitActivity from '../lib/submitActivity';
+import { TWorkspace } from '../types/workspace.type';
+import { toast } from 'react-toastify';
 
 const formSchema = z.object({
   workspace: z.string().min(1, 'Workspace is required').trim()
@@ -51,7 +53,8 @@ const useMutationWorkspaceUpdate = ({
 
       return responseData;
     },
-    onSuccess: () => {
+    onSuccess: (data: TWorkspace) => {
+      toast.success(`${data.title} is successfully updated`);
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['workspaces'] });
       queryClient.invalidateQueries({

@@ -5,6 +5,7 @@ import { UseFormReset } from 'react-hook-form';
 import submitActivity from '../lib/submitActivity';
 import { TBoard } from '../types/board.type';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
+import { toast } from 'react-toastify';
 
 const formSchema = z.object({
   title: z.string().min(1, 'Board is required').trim(),
@@ -61,7 +62,8 @@ const useMutationBoardCreate = ({
 
       return responseData;
     },
-    onSuccess: () => {
+    onSuccess: (data: TBoard) => {
+      toast.success(`${data.title} is successfully created`);
       reset({
         title: '',
         color: 'RED'

@@ -5,6 +5,7 @@ import { UseFormReset } from 'react-hook-form';
 import submitActivity from '../lib/submitActivity';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
 import { TCard } from '../types/card.type';
+import { toast } from 'react-toastify';
 
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required').trim(),
@@ -65,7 +66,8 @@ const useMutationCardCreate = ({
 
       return responseData;
     },
-    onSuccess: () => {
+    onSuccess: (data: TCard) => {
+      toast.success(`${data.title} is successfully created`);
       reset({
         title: '',
         description: '',

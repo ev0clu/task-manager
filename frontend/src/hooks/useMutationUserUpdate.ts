@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../context/AuthContextProvider';
 import { z } from 'zod';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
+import { toast } from 'react-toastify';
 
 const formSchema = z
   .object({
@@ -53,6 +54,7 @@ const useMutationUserUpdate = () => {
       return responseData;
     },
     onSuccess: () => {
+      toast.success(`Profile is successfully updated`);
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['user'] });
     }

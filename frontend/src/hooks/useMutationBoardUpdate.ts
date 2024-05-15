@@ -4,6 +4,7 @@ import { z } from 'zod';
 import refreshTokenHandler from '../lib/refreshTokenHandler';
 import submitActivity from '../lib/submitActivity';
 import { toast } from 'react-toastify';
+import { TBoard } from '../types/board.type';
 
 const formSchema = z.object({
   board: z.string().min(1, 'Board is required').trim()
@@ -56,10 +57,10 @@ const useMutationBoardUpdate = ({
 
       return responseData;
     },
-    onSuccess: () => {
+    onSuccess: (data: TBoard) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['board', boardId] });
-      toast.success(`${boardTitle} has successfully updated`);
+      toast.success(`${data.title} has successfully updated`);
     }
   });
 
