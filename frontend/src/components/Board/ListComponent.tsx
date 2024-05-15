@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   CardContent,
-  Stack,
   Theme,
   Typography,
   useMediaQuery
