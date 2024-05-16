@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "turbo": "^1.13.3"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run type-check build",
+    "start": "node apps/backend/dist/main"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "dependencies": {
+    "superagent": "^9.0.0"
+  }
+}
