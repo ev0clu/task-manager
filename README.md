@@ -48,7 +48,6 @@ REFRESH_JWT_SECRET=
 6. Navigate to **frontend** folder and create .env file and add environmental variables:
 
 ```
-VITE_FRONTEND_ADDR=http://localhost:5173
 VITE_BACKEND_ADDR=http://localhost:4000
 VITE_API_LOGIN=${VITE_BACKEND_ADDR}/api/auth/login
 VITE_API_LOGOUT=${VITE_BACKEND_ADDR}/api/auth/logout
@@ -110,7 +109,6 @@ VITE_API_USER=${VITE_BACKEND_ADDR}/api/user
 
 ![layout-1 picture](https://github.com/ev0clu/task-manager/blob/main/layout-1.png?raw=true)<br>
 ![layout-2 picture](https://github.com/ev0clu/task-manager/blob/main/layout-2.png?raw=true)<br>
-
-```
-
-```
+![layout-3 picture](https://github.com/ev0clu/task-manager/blob/main/layout-3.png?raw=true)<br>
+![layout-4 picture](https://github.com/ev0clu/task-manager/blob/main/layout-4.png?raw=true)<br>
+![layout-5 picture](https://github.com/ev0clu/task-manager/blob/main/layout-5.png?raw=true)<br>
