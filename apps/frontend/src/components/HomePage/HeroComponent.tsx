@@ -76,7 +76,7 @@ const HeroComponent = () => {
             different locations.
           </Typography>
           <Button
-            href={`${import.meta.env.VITE_FRONTEND_ADDR}/register`}
+            href={`/register`}
             variant="contained"
             sx={{ mt: '1rem' }}
           >
